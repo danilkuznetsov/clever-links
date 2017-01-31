@@ -5,7 +5,6 @@ package io.github.danilkuznetsov.service;
  */
 public interface UrlShorterService {
     String createNewShortUrl(String fullUrl);
-
     String findLongUrlByShortUrl(String shortUrl);
-
+    void updateLongUrlByShortUrl(String shortUrl, String expectedAfterUpdateLongUrl);
 }

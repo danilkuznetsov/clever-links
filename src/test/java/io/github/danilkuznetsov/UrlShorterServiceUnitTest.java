@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
  * Created by danil.kuznetsov on 18/01/17.
  */
 
-public class UrlShorterUnitTest {
+public class UrlShorterServiceUnitTest {
 
     @Test
     public void shouldCreateNewShortUrl() {
@@ -47,8 +47,8 @@ public class UrlShorterUnitTest {
     @Test
     public void shouldCreateDifferentShortUrlForDifferentLongUrl() {
         //given
-        String longUrl1 = "http:\\google.com";
-        String longUrl2 = "http:\\gmail.com";
+        String longUrl1 = "http://google.com";
+        String longUrl2 = "http://gmail.com";
 
         UrlShorterService urlShorterService = new DefaultUrlShorterService();
 
@@ -62,10 +62,10 @@ public class UrlShorterUnitTest {
     }
 
     @Test
-    public void shouldFindDifferentLongUrlByDifferentShotUrl(){
+    public void shouldFindDifferentLongUrlByDifferentShotUrl() {
         //give
-        String expectedLongUrl1 = "http:\\google.com";
-        String expectedLongUrl2 = "http:\\gmail.com";
+        String expectedLongUrl1 = "http://google.com";
+        String expectedLongUrl2 = "http://gmail.com";
 
         UrlShorterService urlShorterService = new DefaultUrlShorterService();
 
@@ -77,7 +77,31 @@ public class UrlShorterUnitTest {
         String actualLongUrl2 = urlShorterService.findLongUrlByShortUrl(shortUrl2);
 
         //then
-        assertThat(actualLongUrl1,equalTo(expectedLongUrl1));
-        assertThat(actualLongUrl2,equalTo(expectedLongUrl2));
+        assertThat(actualLongUrl1, equalTo(expectedLongUrl1));
+        assertThat(actualLongUrl2, equalTo(expectedLongUrl2));
     }
+
+    @Test
+    public void shouldUpdateLongUrlBySameShortUrl() {
+        //give
+        String expectedBeforeUpdateLongUrl = "http://google.com";
+        String expectedAfterUpdateLongUrl = "http://gmail.com";
+
+        UrlShorterService urlService = new DefaultUrlShorterService();
+
+        //when
+        String shortUrl = urlService.createNewShortUrl(expectedBeforeUpdateLongUrl);
+
+        //then
+        String actualBeforeUpdateLongUrl = urlService.findLongUrlByShortUrl(shortUrl);
+        assertThat(actualBeforeUpdateLongUrl, equalTo(expectedBeforeUpdateLongUrl));
+
+        urlService.updateLongUrlByShortUrl(shortUrl, expectedAfterUpdateLongUrl);
+
+        String actualAfterUpdateLongUrl = urlService.findLongUrlByShortUrl(shortUrl);
+
+        assertThat(actualAfterUpdateLongUrl, equalTo(expectedAfterUpdateLongUrl));
+
+    }
+
 }

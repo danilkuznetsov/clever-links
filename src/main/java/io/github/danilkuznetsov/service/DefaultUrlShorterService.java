@@ -14,19 +14,21 @@ public class DefaultUrlShorterService implements UrlShorterService {
 
     private HashMap<String, String> urls = new HashMap<>();
 
-    public String createNewShortUrl(String fullUrl) {
-        String shortUrl = generateShortUrl(fullUrl);
-        urls.put(shortUrl, fullUrl);
+
+    @Override
+    public String createNewShortUrl(String longUrl) {
+        String shortUrl = generateShortUrl(longUrl);
+        urls.put(shortUrl, longUrl);
         return shortUrl;
     }
 
-    private String generateShortUrl(String fullUrl) {
+    private String generateShortUrl(String longUrl) {
         MessageDigest digest = null;
 
-        // TO-DO handle exceptions
+        // TODO handle exceptions
         try {
             digest = MessageDigest.getInstance("MD5");
-            digest.update(fullUrl.getBytes("UTF-8"), 0, fullUrl.length());
+            digest.update(longUrl.getBytes("UTF-8"), 0, longUrl.length());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -36,7 +38,13 @@ public class DefaultUrlShorterService implements UrlShorterService {
         return new BigInteger(1, digest.digest()).toString(16);
     }
 
+    @Override
     public String findLongUrlByShortUrl(String shortUrl) {
         return urls.get(shortUrl);
+    }
+
+    @Override
+    public void updateLongUrlByShortUrl(String shortUrl, String newLongUrl) {
+        urls.put(shortUrl,newLongUrl);
     }
 }
