@@ -21,8 +21,10 @@ public class UrlShorterUnitTest {
         //given
         String fullUrl = "http://google.com";
         UrlShorterService urlShorterService = new DefaultUrlShorterService();
+
         //when
         String actualHash = urlShorterService.createNewShortUrl(fullUrl);
+
         //then
         assertThat(actualHash, notNullValue());
     }
@@ -30,13 +32,15 @@ public class UrlShorterUnitTest {
     @Test
     public void shouldFindLongUrlByShortUrl() {
         //given
-        String expected_longUrl = "http://google.com";
+        String expectedLongUrl = "http://google.com";
         UrlShorterService urlShorterService = new DefaultUrlShorterService();
-        String shortUrl = urlShorterService.createNewShortUrl(expected_longUrl);
+        String shortUrl = urlShorterService.createNewShortUrl(expectedLongUrl);
+
         //when
         String actualLongUrl = urlShorterService.findLongUrlByShortUrl(shortUrl);
+
         //then
-        assertThat(actualLongUrl, equalTo(expected_longUrl));
+        assertThat(actualLongUrl, equalTo(expectedLongUrl));
 
     }
 
