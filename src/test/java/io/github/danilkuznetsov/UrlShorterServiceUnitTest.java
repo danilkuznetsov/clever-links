@@ -99,8 +99,23 @@ public class UrlShorterServiceUnitTest {
         urlService.updateLongUrlByShortUrl(shortUrl, expectedAfterUpdateLongUrl);
 
         String actualAfterUpdateLongUrl = urlService.findLongUrlByShortUrl(shortUrl);
-
         assertThat(actualAfterUpdateLongUrl, equalTo(expectedAfterUpdateLongUrl));
+
+    }
+
+    @Test
+    public void shouldReturnExistingShortUrlWhenCallCreateNewShortUrlBySameLongUrl(){
+        //give
+        String expectedLongUrl = "http://google.com";
+
+        UrlShorterService urlShorterService = new DefaultUrlShorterService();
+
+        //when
+        String expectedShortUrl = urlShorterService.createNewShortUrl(expectedLongUrl);
+
+        //then
+        String actualShortUrl = urlShorterService.createNewShortUrl(expectedLongUrl);
+        assertThat(actualShortUrl,equalTo(expectedShortUrl));
 
     }
 
