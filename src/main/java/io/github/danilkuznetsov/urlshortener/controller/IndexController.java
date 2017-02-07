@@ -16,4 +16,6 @@ public class IndexController {
     public String index(){
         return "Hello wolrd! \r\n I'm url shortener service";
     }
+
+
 }

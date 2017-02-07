@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov;
+package io.github.danilkuznetsov.service;
 
 import io.github.danilkuznetsov.service.DefaultUrlShorterService;
 import io.github.danilkuznetsov.service.UrlShorterService;
