@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.service;
+package io.github.danilkuznetsov.urlshortener.service;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

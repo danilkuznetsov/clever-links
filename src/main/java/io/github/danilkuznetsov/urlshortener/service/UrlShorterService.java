@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.service;
+package io.github.danilkuznetsov.urlshortener.service;
 
 /**
  * Created by danil.kuznetsov on 18/01/17.

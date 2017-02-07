@@ -1,7 +1,5 @@
-package io.github.danilkuznetsov.service;
+package io.github.danilkuznetsov.urlshortener.service;
 
-import io.github.danilkuznetsov.service.DefaultUrlShorterService;
-import io.github.danilkuznetsov.service.UrlShorterService;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
