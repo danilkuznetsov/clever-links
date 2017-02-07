@@ -43,4 +43,19 @@ public class UrlShortControllerUnitTest {
         verify(shorterService).createNewShortUrl(fullUrl);
     }
 
+    @Test
+    public void shouldReturnLongUrlByShortUrl() throws Exception {
+        //given
+        String testShortUrl = "TestShortUrl";
+        String expectedLongUrl = "http://gmail.com";
+        given(shorterService.findLongUrlByShortUrl(testShortUrl)).willReturn(expectedLongUrl);
+        //when and then
+        mockMvc.perform(get("/urls/short/{id}",testShortUrl))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedLongUrl));
+
+        verify(shorterService).findLongUrlByShortUrl(testShortUrl);
+
+    }
+
 }
