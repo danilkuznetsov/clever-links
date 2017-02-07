@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.controller;
+package io.github.danilkuznetsov.urlshortener.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ public class IndexController {
     @RequestMapping("/")
     @ResponseBody
     public String index(){
-        return "Hello wolrd! \r\n I'm url shortener service";
+        return "Hello world! I'm url shortener service";
     }
 
 
