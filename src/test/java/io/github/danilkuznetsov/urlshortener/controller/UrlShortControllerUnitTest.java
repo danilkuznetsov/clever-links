@@ -36,7 +36,7 @@ public class UrlShortControllerUnitTest {
 
         given(shorterService.createNewShortUrl(fullUrl)).willReturn(testShortUrl);
         // when and then
-        mockMvc.perform(get("/urls/new?url={url}", fullUrl))
+        mockMvc.perform(get("/urls/short/new?url={url}", fullUrl))
                 .andExpect(status().isOk())
                 .andExpect(content().string(testShortUrl));
 

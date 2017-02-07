@@ -22,7 +22,7 @@ public class UrlShortController {
         this.urlShorterService = urlShorterService;
     }
 
-    @RequestMapping("/new")
+    @RequestMapping("/short/new")
     public String createNewShortUrl(@RequestParam("url") String longUrl) {
         return urlShorterService.createNewShortUrl(longUrl);
     }
