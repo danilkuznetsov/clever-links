@@ -36,7 +36,7 @@ public class UrlShortControllerUnitTest {
 
         given(shorterService.createNewShortUrl(fullUrl)).willReturn(testShortUrl);
         // when and then
-        mockMvc.perform(get("/urls/short/new?url={url}", fullUrl))
+        mockMvc.perform(get("/api/urls/short/new?url={url}", fullUrl))
                 .andExpect(status().isOk())
                 .andExpect(content().string(testShortUrl));
 
@@ -50,7 +50,7 @@ public class UrlShortControllerUnitTest {
         String expectedLongUrl = "http://gmail.com";
         given(shorterService.findLongUrlByShortUrl(testShortUrl)).willReturn(expectedLongUrl);
         //when and then
-        mockMvc.perform(get("/urls/short/{id}",testShortUrl))
+        mockMvc.perform(get("/api/urls/short/{id}",testShortUrl))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedLongUrl));
 

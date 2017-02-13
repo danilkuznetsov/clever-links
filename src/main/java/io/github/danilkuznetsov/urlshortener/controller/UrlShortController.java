@@ -12,7 +12,7 @@ import javax.inject.Inject;
  * Created by danil.kuznetsov on 31/01/17.
  */
 @RestController
-@RequestMapping("/urls")
+@RequestMapping("/api/urls")
 public class UrlShortController {
 
     private UrlShorterService urlShorterService;
