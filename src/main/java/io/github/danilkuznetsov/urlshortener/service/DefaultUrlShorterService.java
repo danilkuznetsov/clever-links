@@ -1,9 +1,8 @@
 package io.github.danilkuznetsov.urlshortener.service;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import io.github.danilkuznetsov.urlshortener.strategies.GeneratorShortUrl;
+import io.github.danilkuznetsov.urlshortener.strategies.GeneratorMD5ShortUrl;
+
 import java.util.HashMap;
 
 /**
@@ -12,30 +11,15 @@ import java.util.HashMap;
 public class DefaultUrlShorterService implements UrlShorterService {
 
 
+    private final GeneratorShortUrl generator = new GeneratorMD5ShortUrl();
     private HashMap<String, String> urls = new HashMap<>();
 
 
     @Override
     public String createNewShortUrl(String longUrl) {
-        String shortUrl = generateShortUrl(longUrl);
+        String shortUrl = generator.encodeLongUrl(longUrl);
         urls.put(shortUrl, longUrl);
         return shortUrl;
-    }
-
-    private String generateShortUrl(String longUrl) {
-        MessageDigest digest = null;
-
-        // TODO handle exceptions
-        try {
-            digest = MessageDigest.getInstance("MD5");
-            digest.update(longUrl.getBytes("UTF-8"), 0, longUrl.length());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return new BigInteger(1, digest.digest()).toString(16);
     }
 
     @Override
@@ -45,6 +29,6 @@ public class DefaultUrlShorterService implements UrlShorterService {
 
     @Override
     public void updateLongUrlByShortUrl(String shortUrl, String newLongUrl) {
-        urls.put(shortUrl,newLongUrl);
+        urls.put(shortUrl, newLongUrl);
     }
 }
