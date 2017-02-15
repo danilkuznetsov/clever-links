@@ -1,8 +1,9 @@
 package io.github.danilkuznetsov.urlshortener.service;
 
+import io.github.danilkuznetsov.urlshortener.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.urlshortener.strategies.GeneratorShortUrl;
-import io.github.danilkuznetsov.urlshortener.strategies.GeneratorMD5ShortUrl;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 
 /**
@@ -10,14 +11,19 @@ import java.util.HashMap;
  */
 public class DefaultUrlShorterService implements UrlShorterService {
 
-
-    private final GeneratorShortUrl generator = new GeneratorMD5ShortUrl();
+    private GeneratorFactory generatorFactory;
     private HashMap<String, String> urls = new HashMap<>();
 
+    @Inject
+    public DefaultUrlShorterService(GeneratorFactory generatorFactory) {
+        this.generatorFactory = generatorFactory;
+    }
 
     @Override
     public String createNewShortUrl(String longUrl) {
+        GeneratorShortUrl generator = generatorFactory.createGenerator("");
         String shortUrl = generator.encodeLongUrl(longUrl);
+
         urls.put(shortUrl, longUrl);
         return shortUrl;
     }

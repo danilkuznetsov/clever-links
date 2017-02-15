@@ -1,11 +1,16 @@
 package io.github.danilkuznetsov.urlshortener.service;
 
+import io.github.danilkuznetsov.urlshortener.strategies.GeneratorFactory;
+import io.github.danilkuznetsov.urlshortener.strategies.GeneratorMD5ShortUrl;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -14,11 +19,20 @@ import static org.junit.Assert.assertThat;
 
 public class UrlShorterServiceUnitTest {
 
+    GeneratorFactory mockGeneratorFactory = mock(GeneratorFactory.class);
+
+    private UrlShorterService urlShorterService;
+
+    @Before
+    public void setup(){
+        when(mockGeneratorFactory.createGenerator("")).thenReturn(new GeneratorMD5ShortUrl());
+        urlShorterService = new DefaultUrlShorterService(mockGeneratorFactory);
+    }
+
     @Test
     public void shouldCreateNewShortUrl() {
         //given
         String fullUrl = "http://google.com";
-        UrlShorterService urlShorterService = new DefaultUrlShorterService();
 
         //when
         String actualHash = urlShorterService.createNewShortUrl(fullUrl);
@@ -31,7 +45,6 @@ public class UrlShorterServiceUnitTest {
     public void shouldFindLongUrlByShortUrl() {
         //given
         String expectedLongUrl = "http://google.com";
-        UrlShorterService urlShorterService = new DefaultUrlShorterService();
         String shortUrl = urlShorterService.createNewShortUrl(expectedLongUrl);
 
         //when
@@ -48,8 +61,6 @@ public class UrlShorterServiceUnitTest {
         String longUrl1 = "http://google.com";
         String longUrl2 = "http://gmail.com";
 
-        UrlShorterService urlShorterService = new DefaultUrlShorterService();
-
         //when
         String actualShortUrl1 = urlShorterService.createNewShortUrl(longUrl1);
         String actualShortUrl2 = urlShorterService.createNewShortUrl(longUrl2);
@@ -64,8 +75,6 @@ public class UrlShorterServiceUnitTest {
         //give
         String expectedLongUrl1 = "http://google.com";
         String expectedLongUrl2 = "http://gmail.com";
-
-        UrlShorterService urlShorterService = new DefaultUrlShorterService();
 
         //when
         String shortUrl1 = urlShorterService.createNewShortUrl(expectedLongUrl1);
@@ -85,18 +94,16 @@ public class UrlShorterServiceUnitTest {
         String expectedBeforeUpdateLongUrl = "http://google.com";
         String expectedAfterUpdateLongUrl = "http://gmail.com";
 
-        UrlShorterService urlService = new DefaultUrlShorterService();
-
         //when
-        String shortUrl = urlService.createNewShortUrl(expectedBeforeUpdateLongUrl);
+        String shortUrl = urlShorterService.createNewShortUrl(expectedBeforeUpdateLongUrl);
 
         //then
-        String actualBeforeUpdateLongUrl = urlService.findLongUrlByShortUrl(shortUrl);
+        String actualBeforeUpdateLongUrl = urlShorterService.findLongUrlByShortUrl(shortUrl);
         assertThat(actualBeforeUpdateLongUrl, equalTo(expectedBeforeUpdateLongUrl));
 
-        urlService.updateLongUrlByShortUrl(shortUrl, expectedAfterUpdateLongUrl);
+        urlShorterService.updateLongUrlByShortUrl(shortUrl, expectedAfterUpdateLongUrl);
 
-        String actualAfterUpdateLongUrl = urlService.findLongUrlByShortUrl(shortUrl);
+        String actualAfterUpdateLongUrl = urlShorterService.findLongUrlByShortUrl(shortUrl);
         assertThat(actualAfterUpdateLongUrl, equalTo(expectedAfterUpdateLongUrl));
 
     }
@@ -105,8 +112,6 @@ public class UrlShorterServiceUnitTest {
     public void shouldReturnExistingShortUrlWhenCallCreateNewShortUrlBySameLongUrl(){
         //give
         String expectedLongUrl = "http://google.com";
-
-        UrlShorterService urlShorterService = new DefaultUrlShorterService();
 
         //when
         String expectedShortUrl = urlShorterService.createNewShortUrl(expectedLongUrl);

@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class GeneratorMD5ShortUrl extends GeneratorShortUrl {
+public class GeneratorMD5ShortUrl implements GeneratorShortUrl {
     @Override
-    protected String makeHash(String longUrl) {
+    public String encodeLongUrl(String longUrl) {
         MessageDigest digest = null;
         // TODO handle exceptions
         try {
