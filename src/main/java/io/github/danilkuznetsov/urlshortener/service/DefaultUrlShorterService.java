@@ -4,7 +4,9 @@ import io.github.danilkuznetsov.urlshortener.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.urlshortener.strategies.GeneratorShortUrl;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by danil.kuznetsov on 18/01/17.
@@ -36,5 +38,10 @@ public class DefaultUrlShorterService implements UrlShorterService {
     @Override
     public void updateLongUrlByShortUrl(String shortUrl, String newLongUrl) {
         urls.put(shortUrl, newLongUrl);
+    }
+
+    @Override
+    public List<String> findAllUrl() {
+        return new ArrayList<>(urls.values());
     }
 }
