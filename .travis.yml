@@ -4,7 +4,5 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
-service:
-  - docker
 script:
-  - mvn clean install
+  - ./mvnw clean verify
