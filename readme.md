@@ -4,7 +4,7 @@
 ### Main Features:
    - create a new auto-gen short URL by long URL
    - create a new user-defined short URL  
-   - add a new user-defined short URL for existen long URL
+   - add a new user-defined short URL for existing long URL
    - update a long URL for short URL
    - delete short URL
    - validation long URL, support only http and https protocols 

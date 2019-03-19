@@ -1,10 +1,9 @@
-package io.github.danilkuznetsov.cleverlinks.web.ui;
+package io.github.danilkuznetsov.cleverlinks.web;
 
 import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,56 +14,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by danil.kuznetsov on 07/02/17.
+ * @author Danil Kuznetsov (kuznetsov.danil.v@gmail.com)
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(IndexController.class)
-public class IndexControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+@WebMvcTest(RedirectHandler.class)
+public class RedirectHandlerTest {
 
     @MockBean
     private UrlShorterService shorterService;
 
-    @Test
-    public void shouldReturnHomePage() throws Exception {
-
-        this.mockMvc.perform(
-            get("/")
-        )
-            .andExpect(status().isOk());
-    }
+    @Autowired
+    private MockMvc mvc;
 
     @Test
-    public void shouldRedirectToLongUrlByShortId() throws Exception {
-        //give
-        String shortUrls = "shortUrls";
+    public void shouldRedirectToLongUrlByShortUrl() throws Exception {
+
+        String shortUrl = "shortUrls";
         String longUrl = "http://gmail.com";
 
-        given(this.shorterService.findLongUrlByShortUrl(shortUrls)).willReturn(longUrl);
-        //when and then
-        this.mockMvc
-            .perform(get("/{id}", shortUrls))
+        given(this.shorterService.findLongUrlByShortUrl(shortUrl))
+            .willReturn(longUrl);
+
+        this.mvc
+            .perform(
+                get("/{id}", shortUrl)
+            )
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl(longUrl));
 
-        verify(this.shorterService).findLongUrlByShortUrl(shortUrls);
     }
 
     @Test
-    public void shouldReturnNotFoundByShortIdIsNotFound() throws Exception {
-        //give
-        String shortUrls = "shortUrls";
+    public void shouldRedirectToHomePageWhenShortUrlNotFound() throws Exception {
 
-        given(this.shorterService.findLongUrlByShortUrl(shortUrls)).willReturn(null);
+        String shortUrl = "shortUrls";
+
+        given(this.shorterService.findLongUrlByShortUrl(shortUrl))
+            .willReturn(null);
 
         //when and then
-        this.mockMvc.perform(
-            get("/{id}", shortUrls)
+        this.mvc.perform(
+            get("/{id}", shortUrl)
         )
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/"));
-
-        verify(this.shorterService).findLongUrlByShortUrl(shortUrls);
     }
 }
