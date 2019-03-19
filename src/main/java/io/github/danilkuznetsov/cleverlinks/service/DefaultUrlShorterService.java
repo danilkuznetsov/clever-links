@@ -1,7 +1,7 @@
-package io.github.danilkuznetsov.urlshortener.service;
+package io.github.danilkuznetsov.cleverlinks.service;
 
-import io.github.danilkuznetsov.urlshortener.strategies.GeneratorFactory;
-import io.github.danilkuznetsov.urlshortener.strategies.GeneratorShortUrl;
+import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorShortUrl;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.danilkuznetsov</groupId>
-    <artifactId>urls-shortener</artifactId>
+    <artifactId>cleverlinks</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>urls-shortener</name>
+    <name>clever-links</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

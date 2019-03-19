@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.urlshortener.service;
+package io.github.danilkuznetsov.cleverlinks.service;
 
 import java.util.List;
 

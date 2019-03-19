@@ -1,9 +1,9 @@
-package io.github.danilkuznetsov.urlshortener;
+package io.github.danilkuznetsov.cleverlinks;
 
-import io.github.danilkuznetsov.urlshortener.service.DefaultUrlShorterService;
-import io.github.danilkuznetsov.urlshortener.service.UrlShorterService;
-import io.github.danilkuznetsov.urlshortener.strategies.DefaultGeneratorFactory;
-import io.github.danilkuznetsov.urlshortener.strategies.GeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.service.DefaultUrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.strategies.DefaultGeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

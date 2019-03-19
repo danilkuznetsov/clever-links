@@ -1,7 +1,7 @@
-package io.github.danilkuznetsov.urlshortener.service;
+package io.github.danilkuznetsov.cleverlinks.service;
 
-import io.github.danilkuznetsov.urlshortener.strategies.GeneratorFactory;
-import io.github.danilkuznetsov.urlshortener.strategies.GeneratorMD5ShortUrl;
+import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorMD5ShortUrl;
 import org.junit.Before;
 import org.junit.Test;
 

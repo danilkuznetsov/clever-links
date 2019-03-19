@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.urlshortener.error;
+package io.github.danilkuznetsov.cleverlinks.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

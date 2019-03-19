@@ -1,6 +1,6 @@
-package io.github.danilkuznetsov.urlshortener.controller;
+package io.github.danilkuznetsov.cleverlinks.controller;
 
-import io.github.danilkuznetsov.urlshortener.service.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

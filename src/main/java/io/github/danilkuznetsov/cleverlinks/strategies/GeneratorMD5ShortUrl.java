@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.urlshortener.strategies;
+package io.github.danilkuznetsov.cleverlinks.strategies;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

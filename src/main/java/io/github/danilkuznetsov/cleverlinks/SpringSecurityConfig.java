@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.urlshortener;
+package io.github.danilkuznetsov.cleverlinks;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

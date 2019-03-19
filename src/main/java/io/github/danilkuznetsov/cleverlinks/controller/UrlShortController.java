@@ -1,6 +1,6 @@
-package io.github.danilkuznetsov.urlshortener.controller;
+package io.github.danilkuznetsov.cleverlinks.controller;
 
-import io.github.danilkuznetsov.urlshortener.service.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
