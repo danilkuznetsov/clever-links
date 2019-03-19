@@ -1,5 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.services;
 
+import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import java.util.List;
 
 /**
@@ -12,5 +13,5 @@ public interface UrlShorterService {
 
     void updateLongUrlByShortUrl(String shortUrl, String expectedAfterUpdateLongUrl);
 
-    List<String> findAllUrl();
+    List<FullUrl> loadUrls();
 }

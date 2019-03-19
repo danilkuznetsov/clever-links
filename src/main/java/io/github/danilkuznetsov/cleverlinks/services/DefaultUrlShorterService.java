@@ -1,8 +1,9 @@
 package io.github.danilkuznetsov.cleverlinks.services;
 
+import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorShortUrl;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class DefaultUrlShorterService implements UrlShorterService {
     }
 
     @Override
-    public List<String> findAllUrl() {
-        return new ArrayList<>(urls.values());
+    public List<FullUrl> loadUrls() {
+        FullUrl fakeUrl = FullUrl.builder().url("fake").build();
+        return Collections.singletonList(fakeUrl);
     }
 }

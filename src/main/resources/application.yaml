@@ -4,3 +4,7 @@ server:
 spring:
   jpa:
     open-in-view: false
+
+  thymeleaf:
+    mode: HTML
+    cache: false
