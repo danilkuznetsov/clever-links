@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.services;
 
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorShortUrl;
 import java.util.Collections;
@@ -10,12 +11,12 @@ import java.util.List;
 /**
  * Created by danil.kuznetsov on 18/01/17.
  */
-public class DefaultUrlShorterService implements UrlShorterService {
+public class UrlServiceImpl implements UrlService {
 
     private GeneratorFactory generatorFactory;
     private HashMap<String, String> urls = new HashMap<>();
 
-    public DefaultUrlShorterService(final GeneratorFactory urlGeneratorFactory) {
+    public UrlServiceImpl(final GeneratorFactory urlGeneratorFactory) {
         this.generatorFactory = urlGeneratorFactory;
     }
 
@@ -39,8 +40,8 @@ public class DefaultUrlShorterService implements UrlShorterService {
     }
 
     @Override
-    public List<FullUrl> loadUrls() {
-        FullUrl fakeUrl = FullUrl.builder().url("fake").build();
+    public List<FullUrlDetails> loadUrls() {
+        FullUrlDetails fakeUrl = FullUrlDetails.of(FullUrl.builder().id(1L).url("http://google.com").build());
         return Collections.singletonList(fakeUrl);
     }
 }

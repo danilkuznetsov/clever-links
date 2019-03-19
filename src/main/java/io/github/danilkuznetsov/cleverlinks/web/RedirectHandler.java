@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.web;
 
-import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RedirectHandler {
 
-    private final UrlShorterService urlService;
+    private final UrlService urlService;
 
     @Autowired
-    public RedirectHandler(final UrlShorterService urlService) {
+    public RedirectHandler(final UrlService urlService) {
         this.urlService = urlService;
     }
 

@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.web.api;
 
-import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
@@ -24,7 +24,7 @@ public class UrlShortResourceTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UrlShorterService shorterService;
+    private UrlService shorterService;
 
     @Test
     public void shouldReturnShortUrlByLongUrl() throws Exception {

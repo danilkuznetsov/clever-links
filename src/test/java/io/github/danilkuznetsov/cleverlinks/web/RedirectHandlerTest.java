@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.web;
 
-import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RedirectHandlerTest {
 
     @MockBean
-    private UrlShorterService shorterService;
+    private UrlService urlService;
 
     @Autowired
     private MockMvc mvc;
@@ -32,7 +32,7 @@ public class RedirectHandlerTest {
         String shortUrl = "shortUrls";
         String longUrl = "http://gmail.com";
 
-        given(this.shorterService.findLongUrlByShortUrl(shortUrl))
+        given(this.urlService.findLongUrlByShortUrl(shortUrl))
             .willReturn(longUrl);
 
         this.mvc
@@ -49,10 +49,9 @@ public class RedirectHandlerTest {
 
         String shortUrl = "shortUrls";
 
-        given(this.shorterService.findLongUrlByShortUrl(shortUrl))
+        given(this.urlService.findLongUrlByShortUrl(shortUrl))
             .willReturn(null);
 
-        //when and then
         this.mvc.perform(
             get("/{id}", shortUrl)
         )

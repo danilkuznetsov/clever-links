@@ -1,7 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
-import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
-import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
+import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/dashboard")
 public class DashBoardController {
 
-    private final UrlShorterService urlService;
+    private final UrlService urlService;
 
     @Autowired
-    public DashBoardController(UrlShorterService urlService) {
+    public DashBoardController(UrlService urlService) {
         this.urlService = urlService;
     }
 
     @GetMapping
     public String dashboardHome(final Model model) {
-        List<FullUrl> urls = this.urlService.loadUrls();
+        List<FullUrlDetails> urls = this.urlService.loadUrls();
         model.addAttribute("urls", urls);
         return "dashboard/dashboard";
     }

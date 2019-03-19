@@ -1,7 +1,8 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
-import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,13 +28,13 @@ public class DashboardControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private UrlShorterService urlShorterService;
+    private UrlService urlService;
 
     @Test
     public void shouldDisplayDashboardPage() throws Exception {
 
-        when(this.urlShorterService.loadUrls())
-            .thenReturn(Collections.singletonList(FullUrlFactory.fullUrl()));
+        when(this.urlService.loadUrls())
+            .thenReturn(Collections.singletonList(FullUrlDetails.of(FullUrlFactory.fullUrl())));
 
         this.mvc.perform(
             get("/dashboard")
