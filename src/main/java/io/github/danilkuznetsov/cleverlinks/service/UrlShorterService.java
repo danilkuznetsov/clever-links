@@ -7,7 +7,10 @@ import java.util.List;
  */
 public interface UrlShorterService {
     String createNewShortUrl(String fullUrl);
+
     String findLongUrlByShortUrl(String shortUrl);
+
     void updateLongUrlByShortUrl(String shortUrl, String expectedAfterUpdateLongUrl);
+
     List<String> findAllUrl();
 }

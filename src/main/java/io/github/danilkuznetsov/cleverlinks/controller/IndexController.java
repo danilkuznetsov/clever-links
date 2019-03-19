@@ -1,13 +1,12 @@
 package io.github.danilkuznetsov.cleverlinks.controller;
 
 import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.inject.Inject;
 
 /**
  * Created by danil.kuznetsov on 31/01/17.
@@ -16,8 +15,12 @@ import javax.inject.Inject;
 @Controller
 public class IndexController {
 
-    @Inject
-    private UrlShorterService urlService;
+    private final UrlShorterService urlService;
+
+    @Autowired
+    public IndexController(final UrlShorterService urlService) {
+        this.urlService = urlService;
+    }
 
     @RequestMapping("/{id}")
     public String redirectToLongUrl(@PathVariable("id") String shortUrl) {
@@ -25,7 +28,7 @@ public class IndexController {
         if ((longUrl != null) && (!longUrl.isEmpty())) {
             return "redirect:" + longUrl;
         }
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     @GetMapping("/")

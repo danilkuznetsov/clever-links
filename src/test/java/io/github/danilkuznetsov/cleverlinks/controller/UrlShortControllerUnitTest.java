@@ -3,15 +3,13 @@ package io.github.danilkuznetsov.cleverlinks.controller;
 import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import javax.inject.Inject;
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,11 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(UrlShortController.class)
 public class UrlShortControllerUnitTest {
-    @Inject
-    MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
     @MockBean
-    UrlShorterService shorterService;
+    private UrlShorterService shorterService;
 
     @Test
     public void shouldReturnShortUrlByLongUrl() throws Exception {
@@ -37,8 +35,8 @@ public class UrlShortControllerUnitTest {
         given(shorterService.createNewShortUrl(fullUrl)).willReturn(testShortUrl);
         // when and then
         mockMvc.perform(get("/api/urls/short/new?url={url}", fullUrl))
-                .andExpect(status().isOk())
-                .andExpect(content().string(testShortUrl));
+            .andExpect(status().isOk())
+            .andExpect(content().string(testShortUrl));
 
         verify(shorterService).createNewShortUrl(fullUrl);
     }
@@ -50,9 +48,9 @@ public class UrlShortControllerUnitTest {
         String expectedLongUrl = "http://gmail.com";
         given(shorterService.findLongUrlByShortUrl(testShortUrl)).willReturn(expectedLongUrl);
         //when and then
-        mockMvc.perform(get("/api/urls/short/{id}",testShortUrl))
-                .andExpect(status().isOk())
-                .andExpect(content().string(expectedLongUrl));
+        mockMvc.perform(get("/api/urls/short/{id}", testShortUrl))
+            .andExpect(status().isOk())
+            .andExpect(content().string(expectedLongUrl));
 
         verify(shorterService).findLongUrlByShortUrl(testShortUrl);
 

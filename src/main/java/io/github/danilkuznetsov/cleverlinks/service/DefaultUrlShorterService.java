@@ -2,8 +2,6 @@ package io.github.danilkuznetsov.cleverlinks.service;
 
 import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorShortUrl;
-
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +14,8 @@ public class DefaultUrlShorterService implements UrlShorterService {
     private GeneratorFactory generatorFactory;
     private HashMap<String, String> urls = new HashMap<>();
 
-    @Inject
-    public DefaultUrlShorterService(GeneratorFactory generatorFactory) {
-        this.generatorFactory = generatorFactory;
+    public DefaultUrlShorterService(final GeneratorFactory urlGeneratorFactory) {
+        this.generatorFactory = urlGeneratorFactory;
     }
 
     @Override

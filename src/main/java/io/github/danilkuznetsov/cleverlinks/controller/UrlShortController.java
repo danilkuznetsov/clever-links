@@ -1,12 +1,11 @@
 package io.github.danilkuznetsov.cleverlinks.controller;
 
 import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.inject.Inject;
 
 /**
  * Created by danil.kuznetsov on 31/01/17.
@@ -15,9 +14,9 @@ import javax.inject.Inject;
 @RequestMapping("/api/urls")
 public class UrlShortController {
 
-    private UrlShorterService urlShorterService;
+    private final UrlShorterService urlShorterService;
 
-    @Inject
+    @Autowired
     public UrlShortController(UrlShorterService urlShorterService) {
         this.urlShorterService = urlShorterService;
     }
@@ -28,7 +27,7 @@ public class UrlShortController {
     }
 
     @RequestMapping("/short/{id}")
-    public String getLongUrl(@PathVariable("id") String shortUrl){
+    public String getLongUrl(@PathVariable("id") String shortUrl) {
         return urlShorterService.findLongUrlByShortUrl(shortUrl);
-    };
+    }
 }
