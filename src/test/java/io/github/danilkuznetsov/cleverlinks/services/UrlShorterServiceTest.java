@@ -1,7 +1,7 @@
-package io.github.danilkuznetsov.cleverlinks.service;
+package io.github.danilkuznetsov.cleverlinks.services;
 
-import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorFactory;
-import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorMD5ShortUrl;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorMD5ShortUrl;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -17,7 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
  * Created by danil.kuznetsov on 18/01/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class UrlShorterServiceUnitTest {
+public class UrlShorterServiceTest {
 
     @Mock
     private GeneratorFactory mockGeneratorFactory;

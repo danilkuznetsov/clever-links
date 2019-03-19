@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AppStarter {
+public class CleverLinksLauncher {
     public static void main(String[] args) {
-        SpringApplication.run(AppStarter.class, args);
+        SpringApplication.run(CleverLinksLauncher.class, args);
     }
 }

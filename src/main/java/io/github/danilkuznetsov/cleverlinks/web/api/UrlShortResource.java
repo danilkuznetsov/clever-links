@@ -1,6 +1,6 @@
-package io.github.danilkuznetsov.cleverlinks.controller;
+package io.github.danilkuznetsov.cleverlinks.web.api;
 
-import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/urls")
-public class UrlShortController {
+public class UrlShortResource {
 
     private final UrlShorterService urlShorterService;
 
     @Autowired
-    public UrlShortController(UrlShorterService urlShorterService) {
+    public UrlShortResource(UrlShorterService urlShorterService) {
         this.urlShorterService = urlShorterService;
     }
 

@@ -1,7 +1,7 @@
-package io.github.danilkuznetsov.cleverlinks.service;
+package io.github.danilkuznetsov.cleverlinks.services;
 
-import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorFactory;
-import io.github.danilkuznetsov.cleverlinks.strategies.GeneratorShortUrl;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorShortUrl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

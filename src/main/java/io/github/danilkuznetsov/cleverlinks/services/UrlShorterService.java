@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.cleverlinks.service;
+package io.github.danilkuznetsov.cleverlinks.services;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package io.github.danilkuznetsov.cleverlinks.controller;
+package io.github.danilkuznetsov.cleverlinks.web.ui;
 
-import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,6 +1,6 @@
-package io.github.danilkuznetsov.cleverlinks.controller;
+package io.github.danilkuznetsov.cleverlinks.web.api;
 
-import io.github.danilkuznetsov.cleverlinks.service.UrlShorterService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlShorterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by danil.kuznetsov on 07/02/17.
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(UrlShortController.class)
-public class UrlShortControllerUnitTest {
+@WebMvcTest(UrlShortResource.class)
+public class UrlShortResourceTest {
     @Autowired
     private MockMvc mockMvc;
 
