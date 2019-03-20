@@ -11,10 +11,15 @@ public interface FullUrlFactory {
     String FIRST_URL = "http://google.com";
 
     static FullUrl fullUrl() {
-        return FullUrl
+
+        final FullUrl url = FullUrl
             .builder()
             .id(FullUrlFactory.FIRST_URL_ID)
             .url(FullUrlFactory.FIRST_URL)
             .build();
+
+        url.addShortUrl(ShortUrlFactory.SHORT_URL);
+
+        return url;
     }
 }

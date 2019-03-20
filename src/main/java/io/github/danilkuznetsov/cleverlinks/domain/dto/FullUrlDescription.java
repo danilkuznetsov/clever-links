@@ -14,13 +14,13 @@ import lombok.ToString;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode(exclude = "id")
 @ToString
-public class FullUrlDetails {
+public class FullUrlDescription {
 
     private final Long id;
 
     private final String url;
 
-    public static FullUrlDetails of(final FullUrl url) {
-        return new FullUrlDetails(url.getId(), url.getUrl());
+    public static FullUrlDescription of(final FullUrl url) {
+        return new FullUrlDescription(url.getId(), url.getUrl());
     }
 }

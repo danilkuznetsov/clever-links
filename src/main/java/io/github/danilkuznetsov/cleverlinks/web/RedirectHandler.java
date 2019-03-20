@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.web;
 
-import io.github.danilkuznetsov.cleverlinks.services.UrlService;
+import io.github.danilkuznetsov.cleverlinks.services.UrlCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RedirectHandler {
 
-    private final UrlService urlService;
+    private final UrlCache urlService;
 
     @Autowired
-    public RedirectHandler(final UrlService urlService) {
-        this.urlService = urlService;
+    public RedirectHandler(final UrlCache urlCache) {
+        this.urlService = urlCache;
     }
 
     @RequestMapping("/{id}")
     public String redirectToLongUrl(@PathVariable("id") String shortUrl) {
-        String longUrl = this.urlService.findLongUrlByShortUrl(shortUrl);
+        String longUrl = this.urlService.resolveUrl(shortUrl);
         if (longUrl != null && !longUrl.isEmpty()) {
             return "redirect:" + longUrl;
         }

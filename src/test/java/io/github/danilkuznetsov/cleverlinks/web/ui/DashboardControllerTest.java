@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
-import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class DashboardControllerTest {
     public void shouldDisplayDashboardPage() throws Exception {
 
         when(this.urlService.loadUrls())
-            .thenReturn(Collections.singletonList(FullUrlDetails.of(FullUrlFactory.fullUrl())));
+            .thenReturn(Collections.singletonList(FullUrlDescription.of(FullUrlFactory.fullUrl())));
 
         this.mvc.perform(
             get("/dashboard")

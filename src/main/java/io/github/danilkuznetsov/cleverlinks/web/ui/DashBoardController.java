@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
-import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DashBoardController {
 
     @GetMapping
     public String dashboardHome(final Model model) {
-        List<FullUrlDetails> urls = this.urlService.loadUrls();
+        List<FullUrlDescription> urls = this.urlService.loadUrls();
         model.addAttribute("urls", urls);
         return "dashboard/dashboard";
     }
