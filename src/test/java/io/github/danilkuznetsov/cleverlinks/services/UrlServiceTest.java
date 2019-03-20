@@ -1,14 +1,14 @@
 package io.github.danilkuznetsov.cleverlinks.services;
 
+import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
+import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorMD5ShortUrl;
+import java.util.Collections;
 import java.util.List;
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.notNullValue;
+import org.hamcrest.CoreMatchers;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,13 +26,20 @@ public class UrlServiceTest {
     @Mock
     private GeneratorFactory mockGeneratorFactory;
 
+    @Mock
+    private FullUrlRepository urlRepository;
+
     private UrlService urlService;
 
     @Before
-    public void setup(){
-        when(this.mockGeneratorFactory.createGenerator("")).thenReturn(new GeneratorMD5ShortUrl());
+    public void setup() {
 
-        this.urlService = new UrlServiceImpl(this.mockGeneratorFactory);
+        this.urlService = new UrlServiceImpl(
+            this.urlRepository,
+            this.mockGeneratorFactory
+        );
+
+        when(this.mockGeneratorFactory.createGenerator("")).thenReturn(new GeneratorMD5ShortUrl());
     }
 
     @Test
@@ -44,7 +51,7 @@ public class UrlServiceTest {
         String actualHash = this.urlService.createNewShortUrl(fullUrl);
 
         //then
-        assertThat(actualHash, notNullValue());
+        assertThat(actualHash, CoreMatchers.notNullValue());
     }
 
     @Test
@@ -57,7 +64,7 @@ public class UrlServiceTest {
         String actualLongUrl = this.urlService.findLongUrlByShortUrl(shortUrl);
 
         //then
-        assertThat(actualLongUrl, equalTo(expectedLongUrl));
+        assertThat(actualLongUrl, CoreMatchers.equalTo(expectedLongUrl));
 
     }
 
@@ -72,7 +79,7 @@ public class UrlServiceTest {
         String actualShortUrl2 = this.urlService.createNewShortUrl(longUrl2);
 
         //then
-        assertThat(actualShortUrl1, not(equalTo(actualShortUrl2)));
+        assertThat(actualShortUrl1, CoreMatchers.not(CoreMatchers.equalTo(actualShortUrl2)));
 
     }
 
@@ -90,8 +97,8 @@ public class UrlServiceTest {
         String actualLongUrl2 = this.urlService.findLongUrlByShortUrl(shortUrl2);
 
         //then
-        assertThat(actualLongUrl1, equalTo(expectedLongUrl1));
-        assertThat(actualLongUrl2, equalTo(expectedLongUrl2));
+        assertThat(actualLongUrl1, CoreMatchers.equalTo(expectedLongUrl1));
+        assertThat(actualLongUrl2, CoreMatchers.equalTo(expectedLongUrl2));
     }
 
     @Test
@@ -105,17 +112,17 @@ public class UrlServiceTest {
 
         //then
         String actualBeforeUpdateLongUrl = this.urlService.findLongUrlByShortUrl(shortUrl);
-        assertThat(actualBeforeUpdateLongUrl, equalTo(expectedBeforeUpdateLongUrl));
+        assertThat(actualBeforeUpdateLongUrl, CoreMatchers.equalTo(expectedBeforeUpdateLongUrl));
 
         this.urlService.updateLongUrlByShortUrl(shortUrl, expectedAfterUpdateLongUrl);
 
         String actualAfterUpdateLongUrl = this.urlService.findLongUrlByShortUrl(shortUrl);
-        assertThat(actualAfterUpdateLongUrl, equalTo(expectedAfterUpdateLongUrl));
+        assertThat(actualAfterUpdateLongUrl, CoreMatchers.equalTo(expectedAfterUpdateLongUrl));
 
     }
 
     @Test
-    public void shouldReturnExistingShortUrlWhenCallCreateNewShortUrlBySameLongUrl(){
+    public void shouldReturnExistingShortUrlWhenCallCreateNewShortUrlBySameLongUrl() {
         //give
         String expectedLongUrl = "http://google.com";
 
@@ -124,15 +131,19 @@ public class UrlServiceTest {
 
         //then
         String actualShortUrl = this.urlService.createNewShortUrl(expectedLongUrl);
-        assertThat(actualShortUrl,equalTo(expectedShortUrl));
+        assertThat(actualShortUrl, CoreMatchers.equalTo(expectedShortUrl));
     }
 
     @Test
-    public void shouldReturnUrls(){
+    public void shouldReturnUrls() {
+
+        FullUrl url = FullUrlFactory.fullUrl();
+
+        when(this.urlRepository.findAll()).thenReturn(Collections.singletonList(url));
 
         List<FullUrlDetails> urls = this.urlService.loadUrls();
 
-        assertThat(urls, hasItem(FullUrlDetails.of(FullUrlFactory.fullUrl())));
+        assertThat(urls, CoreMatchers.hasItem(FullUrlDetails.of(url)));
     }
 
 }
