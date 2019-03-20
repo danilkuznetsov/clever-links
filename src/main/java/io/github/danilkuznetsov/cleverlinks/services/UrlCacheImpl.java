@@ -2,6 +2,7 @@ package io.github.danilkuznetsov.cleverlinks.services;
 
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.ShortUrl;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,6 +28,16 @@ public class UrlCacheImpl implements UrlCache {
         Map<String, String> newUrls = url.shortUrls()
             .stream()
             .collect(Collectors.toMap(ShortUrl::getUrl, shortUrl -> url.getUrl()));
+
+        this.urls.putAll(newUrls);
+    }
+
+    @Override
+    public void putAll(final Collection<FullUrl> urls) {
+
+        Map<String, String> newUrls = urls.stream()
+            .flatMap(fullUrl -> fullUrl.shortUrls().stream())
+            .collect(Collectors.toMap(ShortUrl::getUrl, ShortUrl::fullUrl));
 
         this.urls.putAll(newUrls);
     }

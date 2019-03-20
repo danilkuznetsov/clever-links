@@ -40,10 +40,13 @@ public class ShortUrl {
         final Long id,
         final String shortUrl,
         final FullUrl fullUrl
-    ){
-
+    ) {
         this.id = id;
         this.url = shortUrl;
         this.fullUrl = fullUrl;
+    }
+
+    public String fullUrl() {
+        return this.fullUrl.getUrl();
     }
 }
