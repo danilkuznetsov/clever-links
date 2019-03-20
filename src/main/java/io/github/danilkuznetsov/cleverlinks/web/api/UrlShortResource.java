@@ -23,7 +23,7 @@ public class UrlShortResource {
 
     @RequestMapping("/short/new")
     public String createNewShortUrl(@RequestParam("url") String longUrl) {
-        return urlService.createNewShortUrl(longUrl);
+        return urlService.createShortUrl(longUrl);
     }
 
     @RequestMapping("/short/{id}")

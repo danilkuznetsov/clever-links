@@ -4,6 +4,7 @@ import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
+import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExist;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorMD5ShortUrl;
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class UrlServiceTest {
         String fullUrl = "http://google.com";
 
         //when
-        String actualHash = this.urlService.createNewShortUrl(fullUrl);
+        String actualHash = this.urlService.createShortUrl(fullUrl);
 
         //then
         assertThat(actualHash, CoreMatchers.notNullValue());
@@ -58,7 +59,7 @@ public class UrlServiceTest {
     public void shouldFindLongUrlByShortUrl() {
         //given
         String expectedLongUrl = "http://google.com";
-        String shortUrl = this.urlService.createNewShortUrl(expectedLongUrl);
+        String shortUrl = this.urlService.createShortUrl(expectedLongUrl);
 
         //when
         String actualLongUrl = this.urlService.findLongUrlByShortUrl(shortUrl);
@@ -75,8 +76,8 @@ public class UrlServiceTest {
         String longUrl2 = "http://gmail.com";
 
         //when
-        String actualShortUrl1 = this.urlService.createNewShortUrl(longUrl1);
-        String actualShortUrl2 = this.urlService.createNewShortUrl(longUrl2);
+        String actualShortUrl1 = this.urlService.createShortUrl(longUrl1);
+        String actualShortUrl2 = this.urlService.createShortUrl(longUrl2);
 
         //then
         assertThat(actualShortUrl1, CoreMatchers.not(CoreMatchers.equalTo(actualShortUrl2)));
@@ -90,8 +91,8 @@ public class UrlServiceTest {
         String expectedLongUrl2 = "http://gmail.com";
 
         //when
-        String shortUrl1 = this.urlService.createNewShortUrl(expectedLongUrl1);
-        String shortUrl2 = this.urlService.createNewShortUrl(expectedLongUrl2);
+        String shortUrl1 = this.urlService.createShortUrl(expectedLongUrl1);
+        String shortUrl2 = this.urlService.createShortUrl(expectedLongUrl2);
 
         String actualLongUrl1 = this.urlService.findLongUrlByShortUrl(shortUrl1);
         String actualLongUrl2 = this.urlService.findLongUrlByShortUrl(shortUrl2);
@@ -108,7 +109,7 @@ public class UrlServiceTest {
         String expectedAfterUpdateLongUrl = "http://gmail.com";
 
         //when
-        String shortUrl = this.urlService.createNewShortUrl(expectedBeforeUpdateLongUrl);
+        String shortUrl = this.urlService.createShortUrl(expectedBeforeUpdateLongUrl);
 
         //then
         String actualBeforeUpdateLongUrl = this.urlService.findLongUrlByShortUrl(shortUrl);
@@ -121,17 +122,13 @@ public class UrlServiceTest {
 
     }
 
-    @Test
-    public void shouldReturnExistingShortUrlWhenCallCreateNewShortUrlBySameLongUrl() {
-        //give
-        String expectedLongUrl = "http://google.com";
+    @Test(expected = FullUrlAlreadyExist.class )
+    public void shouldThrowExceptionIfCreateExistingFullUrl() {
+        String fullUrl = "http://google.com";
 
-        //when
-        String expectedShortUrl = this.urlService.createNewShortUrl(expectedLongUrl);
+        when(this.urlRepository.existsByUrl(fullUrl)).thenReturn(true);
 
-        //then
-        String actualShortUrl = this.urlService.createNewShortUrl(expectedLongUrl);
-        assertThat(actualShortUrl, CoreMatchers.equalTo(expectedShortUrl));
+        this.urlService.createShortUrl(fullUrl);
     }
 
     @Test

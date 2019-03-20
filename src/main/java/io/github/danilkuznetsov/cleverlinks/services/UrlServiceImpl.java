@@ -2,6 +2,7 @@ package io.github.danilkuznetsov.cleverlinks.services;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
+import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExist;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorShortUrl;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class UrlServiceImpl implements UrlService {
     private final FullUrlRepository urlRepository;
     private final GeneratorFactory generatorFactory;
 
-    private HashMap<String, String> urls = new HashMap<>();
+    private final HashMap<String, String> urls = new HashMap<>();
 
     public UrlServiceImpl(
         final FullUrlRepository urlRepository,
@@ -27,22 +28,27 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public String createNewShortUrl(String longUrl) {
-        GeneratorShortUrl generator = generatorFactory.createGenerator("");
-        String shortUrl = generator.encodeLongUrl(longUrl);
+    public String createShortUrl(String fullUrl) {
 
-        urls.put(shortUrl, longUrl);
+        if (this.urlRepository.existsByUrl(fullUrl)) {
+            throw new FullUrlAlreadyExist();
+        }
+
+        GeneratorShortUrl generator = this.generatorFactory.createGenerator("");
+        String shortUrl = generator.encodeLongUrl(fullUrl);
+
+        this.urls.put(shortUrl, fullUrl);
         return shortUrl;
     }
 
     @Override
     public String findLongUrlByShortUrl(String shortUrl) {
-        return urls.get(shortUrl);
+        return this.urls.get(shortUrl);
     }
 
     @Override
     public void updateLongUrlByShortUrl(String shortUrl, String newLongUrl) {
-        urls.put(shortUrl, newLongUrl);
+        this.urls.put(shortUrl, newLongUrl);
     }
 
     @Override

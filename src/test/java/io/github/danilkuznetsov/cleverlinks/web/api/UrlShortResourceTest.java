@@ -32,13 +32,13 @@ public class UrlShortResourceTest {
         String fullUrl = "http://gmail.com";
         String testShortUrl = "TestShortUrl";
 
-        given(shorterService.createNewShortUrl(fullUrl)).willReturn(testShortUrl);
+        given(shorterService.createShortUrl(fullUrl)).willReturn(testShortUrl);
         // when and then
         mockMvc.perform(get("/api/urls/short/new?url={url}", fullUrl))
             .andExpect(status().isOk())
             .andExpect(content().string(testShortUrl));
 
-        verify(shorterService).createNewShortUrl(fullUrl);
+        verify(shorterService).createShortUrl(fullUrl);
     }
 
     @Test

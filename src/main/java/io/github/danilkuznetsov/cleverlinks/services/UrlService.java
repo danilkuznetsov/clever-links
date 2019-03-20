@@ -7,7 +7,8 @@ import java.util.List;
  * Created by danil.kuznetsov on 18/01/17.
  */
 public interface UrlService {
-    String createNewShortUrl(String fullUrl);
+
+    String createShortUrl(String fullUrl);
 
     String findLongUrlByShortUrl(String shortUrl);
 

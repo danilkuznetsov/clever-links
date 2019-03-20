@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Danil Kuznetsov (kuznetsov.danil.v@gmail.com)
  */
 public interface FullUrlRepository extends JpaRepository<FullUrl, Long> {
+    boolean existsByUrl(String url);
 }
