@@ -6,7 +6,7 @@ import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExist;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
-import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorMD5ShortUrl;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorMD5ShortUrl;
 import java.util.Collections;
 import java.util.List;
 import org.hamcrest.CoreMatchers;

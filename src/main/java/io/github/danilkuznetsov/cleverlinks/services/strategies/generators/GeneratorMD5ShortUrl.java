@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.cleverlinks.services.strategies;
+package io.github.danilkuznetsov.cleverlinks.services.strategies.generators;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

@@ -1,5 +1,8 @@
 package io.github.danilkuznetsov.cleverlinks.services.strategies;
 
+import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorMD5ShortUrl;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorShortUrl;
+
 /**
  * @author Danil Kuznetsov
  */

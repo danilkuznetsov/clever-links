@@ -4,7 +4,7 @@ import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExist;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
-import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorShortUrl;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorShortUrl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;

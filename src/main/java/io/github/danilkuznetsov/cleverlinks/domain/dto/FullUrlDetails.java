@@ -20,7 +20,7 @@ public class FullUrlDetails {
 
     private final String url;
 
-    public static FullUrlDetails of(FullUrl url) {
+    public static FullUrlDetails of(final FullUrl url) {
         return new FullUrlDetails(url.getId(), url.getUrl());
     }
 }

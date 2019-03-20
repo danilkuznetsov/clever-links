@@ -1,4 +1,4 @@
-package io.github.danilkuznetsov.cleverlinks.services.strategies;
+package io.github.danilkuznetsov.cleverlinks.services.strategies.generators;
 
 /**
  * @author Danil Kuznetsov
