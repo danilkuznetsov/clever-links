@@ -2,8 +2,10 @@ package io.github.danilkuznetsov.cleverlinks.services;
 
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
-import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExist;
+import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExistException;
+import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlNotFoundException;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorShortUrl;
 import java.util.List;
@@ -30,7 +32,7 @@ public class UrlServiceImpl implements UrlService {
     public FullUrlDescription createUrl(String url) {
 
         if (this.urlRepository.existsByUrl(url)) {
-            throw new FullUrlAlreadyExist();
+            throw new FullUrlAlreadyExistException();
         }
 
         GeneratorShortUrl generator = this.generatorFactory.createGenerator("");
@@ -50,5 +52,12 @@ public class UrlServiceImpl implements UrlService {
             .stream()
             .map(FullUrlDescription::of)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public FullUrlDetails loadDetails(final Long urlId) {
+        return this.urlRepository.findDetailsById(urlId)
+            .map(FullUrlDetails::of)
+            .orElseThrow(FullUrlNotFoundException::new);
     }
 }

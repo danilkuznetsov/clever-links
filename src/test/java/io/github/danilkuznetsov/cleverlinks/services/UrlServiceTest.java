@@ -2,15 +2,19 @@ package io.github.danilkuznetsov.cleverlinks.services;
 
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
-import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExist;
+import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExistException;
+import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlNotFoundException;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorMD5ShortUrl;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.hamcrest.CoreMatchers;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,10 +55,8 @@ public class UrlServiceTest {
 
         FullUrlDescription url = this.urlService.createUrl(fullUrl);
 
-        assertThat(url, CoreMatchers.is(FullUrlDescriptionFactory.urlDescription()));
+        assertThat(url, is(FullUrlDescriptionFactory.urlDescription()));
     }
-
-
 
 //    @Test
 //    public void shouldCreateDifferentShortUrlForDifferentLongUrl() {
@@ -89,7 +91,7 @@ public class UrlServiceTest {
 //        assertThat(actualLongUrl2, CoreMatchers.equalTo(expectedLongUrl2));
 //    }
 
-    @Test(expected = FullUrlAlreadyExist.class)
+    @Test(expected = FullUrlAlreadyExistException.class)
     public void shouldThrowExceptionIfCreateExistingFullUrl() {
         String fullUrl = "http://google.com";
 
@@ -108,6 +110,28 @@ public class UrlServiceTest {
         List<FullUrlDescription> urls = this.urlService.loadUrls();
 
         assertThat(urls, CoreMatchers.hasItem(FullUrlDescription.of(url)));
+    }
+
+    @Test
+    public void shouldReturnFullUrlDetails() {
+
+        FullUrl fullUrl = FullUrlFactory.fullUrl();
+
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.of(fullUrl));
+
+        FullUrlDetails urlDetails = this.urlService.loadDetails(FullUrlFactory.FIRST_URL_ID);
+
+        assertThat(urlDetails, is(FullUrlDetails.of(fullUrl)));
+    }
+
+    @Test(expected = FullUrlNotFoundException.class)
+    public void shouldThrowExceptionIfFullUrlNotFound() {
+
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.empty());
+
+        this.urlService.loadDetails(FullUrlFactory.FIRST_URL_ID);
     }
 
 }

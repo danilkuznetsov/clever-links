@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.services;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import java.util.List;
 
 /**
@@ -11,4 +12,6 @@ public interface UrlService {
     FullUrlDescription createUrl(String url);
 
     List<FullUrlDescription> loadUrls();
+
+    FullUrlDetails loadDetails(Long urlId);
 }
