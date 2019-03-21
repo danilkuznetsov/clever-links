@@ -14,7 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -57,6 +59,20 @@ public class DashboardControllerTest {
             .andExpect(status().isOk())
             .andExpect(view().name("dashboard/fullUrlDetails"))
             .andExpect(model().attributeExists("fullUrlDetails"));
+    }
+
+    @Test
+    public void shouldRedirectToDetailsPageAfterSuccessfulCreationUrl() throws Exception {
+
+        when(this.urlService.createUrl(FullUrlFactory.FIRST_URL))
+            .thenReturn(FullUrlDescription.of(FullUrlFactory.fullUrl()));
+
+        this.mvc.perform(
+            post("/dashboard/urls")
+                .param("url", FullUrlFactory.FIRST_URL)
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/dashboard/urls/1"));
     }
 
 }
