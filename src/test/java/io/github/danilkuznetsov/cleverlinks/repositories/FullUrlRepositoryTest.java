@@ -22,7 +22,7 @@ public class FullUrlRepositoryTest {
     private FullUrlRepository urlRepository;
 
     @Test
-    @Sql("classpath:datasets/fullUrls/oneFullUrl.sql")
+    @Sql("classpath:datasets/fullUrls/oneUrlWithOneShortUrl.sql")
     public void shouldReturnUrlById() {
 
         final FullUrl url = this.urlRepository
@@ -34,13 +34,13 @@ public class FullUrlRepositoryTest {
     }
 
     @Test
-    @Sql("classpath:datasets/fullUrls/oneFullUrl.sql")
+    @Sql("classpath:datasets/fullUrls/twoUrlWithTwoShortUrls.sql")
     public void shouldFindDetailsById() {
 
         FullUrl url = this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID)
             .orElseThrow(RuntimeException::new);
 
         assertThat(url, CoreMatchers.is(FullUrlFactory.fullUrl()));
-        assertThat(url.shortUrls().size(), CoreMatchers.is(1));
+        assertThat(url.shortUrls().size(), CoreMatchers.is(2));
     }
 }
