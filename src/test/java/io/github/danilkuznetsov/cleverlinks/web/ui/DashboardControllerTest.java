@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import java.util.Collections;
@@ -42,6 +43,20 @@ public class DashboardControllerTest {
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("urls"))
             .andExpect(view().name("dashboard/dashboard"));
+    }
+
+    @Test
+    public void shouldDisplayFullUrlDetailsPage() throws Exception {
+
+        when(this.urlService.loadDetails(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(FullUrlDetails.of(FullUrlFactory.fullUrl()));
+
+        this.mvc.perform(
+            get("/dashboard/urls/{id}", FullUrlFactory.FIRST_URL_ID)
+        )
+            .andExpect(status().isOk())
+            .andExpect(view().name("dashboard/fullUrlDetails"))
+            .andExpect(model().attributeExists("fullUrlDetails"));
     }
 
 }
