@@ -19,7 +19,9 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -51,9 +53,15 @@ public class UrlServiceTest {
     @Test
     public void shouldReturnNewUrl() {
 
-        String fullUrl = "http://google.com";
+        doAnswer(invocation -> {
+            FullUrl url = (FullUrl) invocation.getArguments()[0];
+            FullUrlFactory.safeSetId(url, FullUrlFactory.FIRST_URL_ID);
+            return url;
+        })
+            .when(this.urlRepository).save(ArgumentMatchers.any());
 
-        FullUrlDescription url = this.urlService.createUrl(fullUrl);
+        String newUrl = "http://google.com";
+        FullUrlDescription url = this.urlService.createUrl(newUrl);
 
         assertThat(url, is(FullUrlDescriptionFactory.urlDescription()));
     }

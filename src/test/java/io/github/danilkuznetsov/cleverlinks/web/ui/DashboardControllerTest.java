@@ -3,6 +3,7 @@ package io.github.danilkuznetsov.cleverlinks.web.ui;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
+import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import java.util.Collections;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public class DashboardControllerTest {
     public void shouldRedirectToDetailsPageAfterSuccessfulCreationUrl() throws Exception {
 
         when(this.urlService.createUrl(FullUrlFactory.FIRST_URL))
-            .thenReturn(FullUrlDescription.of(FullUrlFactory.fullUrl()));
+            .thenReturn(FullUrlDescriptionFactory.urlDescription());
 
         this.mvc.perform(
             post("/dashboard/urls")

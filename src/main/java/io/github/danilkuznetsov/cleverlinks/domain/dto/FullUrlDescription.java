@@ -12,7 +12,7 @@ import lombok.ToString;
  */
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode
 @ToString
 public class FullUrlDescription {
 

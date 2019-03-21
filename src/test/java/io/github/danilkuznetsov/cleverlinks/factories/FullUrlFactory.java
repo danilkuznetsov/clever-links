@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.factories;
 
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * @author Danil Kuznetsov (kuznetsov.danil.v@gmail.com)
@@ -21,5 +22,9 @@ public interface FullUrlFactory {
         url.addShortUrl(ShortUrlFactory.SHORT_URL);
 
         return url;
+    }
+
+    static void safeSetId(FullUrl targetUrl, Long id) {
+        ReflectionTestUtils.setField(targetUrl, "id", id);
     }
 }

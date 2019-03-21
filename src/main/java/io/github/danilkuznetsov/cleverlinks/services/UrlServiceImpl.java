@@ -29,21 +29,23 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public FullUrlDescription createUrl(String url) {
+    public FullUrlDescription createUrl(String newUrl) {
 
-        if (this.urlRepository.existsByUrl(url)) {
+        if (this.urlRepository.existsByUrl(newUrl)) {
             throw new FullUrlAlreadyExistException();
         }
 
         GeneratorShortUrl generator = this.generatorFactory.createGenerator("");
 
-        FullUrl fullUrl = FullUrl.builder()
-            .url(url)
+        FullUrl url = FullUrl.builder()
+            .url(newUrl)
             .build();
 
-        fullUrl.addShortUrl(generator.encodeLongUrl(url));
+        url.addShortUrl(generator.encodeLongUrl(newUrl));
 
-        return FullUrlDescription.of(fullUrl);
+        url = this.urlRepository.save(url);
+
+        return FullUrlDescription.of(url);
     }
 
     @Override
