@@ -17,7 +17,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="url, iterStat : ${urls}" th:class="${iterStat.odd}? 'odd'">
-                            <td th:text="${iterStat.index}"></td>
+                            <td th:text="${url.id}"></td>
                             <td th:text="${url.url}"></td>
                         </tr>
                         </tbody>

@@ -6,21 +6,33 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
+            <h4>Details:</h4>
             <dl class="row">
                 <dt class="col-sm-3">Id</dt>
                 <dd class="col-sm-9" th:text="${fullUrlDetails.urlDescription.id}"></dd>
 
                 <dt class="col-sm-3">URL</dt>
                 <dd class="col-sm-9" th:text="${fullUrlDetails.urlDescription.url}"></dd>
-
-                <!--<dt class="col-sm-3">Short URLs</dt>-->
-                <!--<dd class="col-sm-9">-->
-                <!--<dl class="row">-->
-                <!--<dt class="col-sm-4">Nested definition list</dt>-->
-                <!--<dd class="col-sm-8">Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc.</dd>-->
-                <!--</dl>-->
-                <!--</dd>-->
             </dl>
+            <h4>Short URLs:</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>url</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="shortUrl, iterStat : ${fullUrlDetails.shortUrls}" th:class="${iterStat.odd}? 'odd'">
+                        <td th:text="${shortUrl.id}"></td>
+                        <td>
+                            <a th:href="@{'/' + ${shortUrl.url}}" th:text="${shortUrl.url}"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
