@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -29,13 +30,15 @@ public class FullUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
+    @Setter(AccessLevel.PACKAGE)
     private Long id;
 
     @Getter
+    @Setter(AccessLevel.PACKAGE)
     private String url;
 
     @OneToMany(mappedBy = "fullUrl", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final Set<ShortUrl> shortUrls = new HashSet<>(1);
+    private Set<ShortUrl> shortUrls = new HashSet<>();
 
     @Builder
     private FullUrl(

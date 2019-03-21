@@ -2,7 +2,8 @@ package io.github.danilkuznetsov.cleverlinks.repositories;
 
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.hamcrest.CoreMatchers;
+import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,18 @@ public class FullUrlRepositoryTest {
             .findById(FullUrlFactory.FIRST_URL_ID)
             .orElseThrow(RuntimeException::new);
 
-        assertThat(url).isEqualTo(FullUrlFactory.fullUrl());
-        assertThat(url.shortUrls()).isNotEmpty();
+        assertThat(url, CoreMatchers.is(FullUrlFactory.fullUrl()));
+        assertThat(url.shortUrls().size(), CoreMatchers.is(1));
+    }
+
+    @Test
+    @Sql("classpath:datasets/fullUrls/oneFullUrl.sql")
+    public void shouldFindDetailsById() {
+
+        FullUrl url = this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID)
+            .orElseThrow(RuntimeException::new);
+
+        assertThat(url, CoreMatchers.is(FullUrlFactory.fullUrl()));
+        assertThat(url.shortUrls().size(), CoreMatchers.is(1));
     }
 }
