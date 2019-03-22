@@ -15,7 +15,17 @@
                 <dd class="col-sm-9" th:text="${fullUrlDetails.urlDescription.url}"></dd>
             </dl>
             <h4>Short URLs:</h4>
-            <div class="table-responsive">
+            <form class="mb-3" method="post"
+                  th:action="@{'/dashboard/urls/' + ${fullUrlDetails.urlDescription.id} + '/short-urls'}">
+                <div class="input-group">
+                    <input name="short-url" class="form-control" type="text" placeholder="type new custom url ... "
+                           required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Create</button>
+                    </div>
+                </div>
+            </form>
+            <div class="table-responsive mb-3">
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr>
