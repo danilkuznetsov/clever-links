@@ -17,14 +17,17 @@ import java.util.stream.Collectors;
 public class UrlServiceImpl implements UrlService {
 
     private final FullUrlRepository urlRepository;
+    private final UrlCache urlCache;
     private final GeneratorFactory generatorFactory;
 
 
     public UrlServiceImpl(
         final FullUrlRepository urlRepository,
+        final UrlCache urlCache,
         final GeneratorFactory urlGeneratorFactory
     ) {
         this.urlRepository = urlRepository;
+        this.urlCache = urlCache;
         this.generatorFactory = urlGeneratorFactory;
     }
 
@@ -44,6 +47,8 @@ public class UrlServiceImpl implements UrlService {
         url.addShortUrl(generator.encodeLongUrl(newUrl));
 
         url = this.urlRepository.save(url);
+
+        this.urlCache.put(url);
 
         return FullUrlDescription.of(url);
     }

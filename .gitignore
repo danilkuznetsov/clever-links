@@ -12,3 +12,5 @@ target/
 out/
 .idea/
 *.iml
+
+*.pid

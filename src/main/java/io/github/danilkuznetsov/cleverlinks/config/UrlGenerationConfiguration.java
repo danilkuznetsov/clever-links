@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.config;
 
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
+import io.github.danilkuznetsov.cleverlinks.services.UrlCache;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import io.github.danilkuznetsov.cleverlinks.services.UrlServiceImpl;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.DefaultGeneratorFactory;
@@ -16,15 +17,20 @@ import org.springframework.context.annotation.Configuration;
 public class UrlGenerationConfiguration {
 
     private final FullUrlRepository urlRepository;
+    private final UrlCache urlCache;
 
     @Autowired
-    public UrlGenerationConfiguration(final FullUrlRepository urlRepository) {
+    public UrlGenerationConfiguration(
+        final FullUrlRepository urlRepository,
+        final UrlCache urlCache
+    ) {
         this.urlRepository = urlRepository;
+        this.urlCache = urlCache;
     }
 
     @Bean
-    public UrlService urlShortenerService() {
-        return new UrlServiceImpl(this.urlRepository, this.generatorFactory());
+    public UrlService urlService() {
+        return new UrlServiceImpl(this.urlRepository, this.urlCache, this.generatorFactory());
     }
 
     @Bean

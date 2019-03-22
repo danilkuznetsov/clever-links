@@ -22,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -37,6 +38,9 @@ public class UrlServiceTest {
     @Mock
     private FullUrlRepository urlRepository;
 
+    @Mock
+    private UrlCache urlCache;
+
     private UrlService urlService;
 
     @Before
@@ -44,6 +48,7 @@ public class UrlServiceTest {
 
         this.urlService = new UrlServiceImpl(
             this.urlRepository,
+            this.urlCache,
             this.mockGeneratorFactory
         );
 
@@ -64,6 +69,20 @@ public class UrlServiceTest {
         FullUrlDescription url = this.urlService.createUrl(newUrl);
 
         assertThat(url, is(FullUrlDescriptionFactory.urlDescription()));
+    }
+
+    @Test
+    public void shouldUpdateCacheAfterSuccessfulCreationUrl() {
+
+        final FullUrl url = FullUrlFactory.fullUrl();
+
+        when(this.urlRepository.save(ArgumentMatchers.any(FullUrl.class)))
+            .thenReturn(url);
+
+        String newUrl = "http://google.com";
+        this.urlService.createUrl(newUrl);
+
+        verify(this.urlCache).put(url);
     }
 
 //    @Test
