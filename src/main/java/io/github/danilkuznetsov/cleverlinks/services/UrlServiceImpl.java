@@ -83,6 +83,8 @@ public class UrlServiceImpl implements UrlService {
 
         url.addShortUrl(newCustomShortUrl);
 
+        this.urlCache.put(url);
+
         return FullUrlDescription.of(url);
     }
 }

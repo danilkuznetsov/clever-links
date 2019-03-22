@@ -74,7 +74,7 @@ public class UrlServiceTest {
     }
 
     @Test
-    public void shouldUpdateCacheAfterSuccessfulCreationUrl() {
+    public void shouldPutCreatedFullUrlIntoCache() {
 
         final FullUrl url = FullUrlFactory.fullUrl();
 
@@ -98,6 +98,27 @@ public class UrlServiceTest {
 
         assertThat(url, notNullValue());
         assertThat(url.countShortUrls(), is(2));
+    }
+
+    @Test(expected = FullUrlNotFoundException.class)
+    public void shouldThrowExceptionIfExpandedUrlNotFound() {
+
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.empty());
+
+        this.urlService.addCustomShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.CUSTOM_SHORT_URL);
+    }
+
+    @Test
+    public void shouldPutExpandedFullUrlIntoCache() {
+
+        final FullUrl url = FullUrlFactory.fullUrl();
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.of(url));
+
+        this.urlService.addCustomShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.CUSTOM_SHORT_URL);
+
+        verify(this.urlCache).put(url);
     }
 
     @Test(expected = FullUrlAlreadyExistException.class)
