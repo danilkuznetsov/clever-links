@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -33,18 +30,5 @@ public class DashBoardController {
         return "dashboard/dashboard";
     }
 
-    @GetMapping("/urls/{urlId}")
-    public String displayFullUrlDetailsPage(
-        @PathVariable("urlId") final Long urlId,
-        final Model model
-    ) {
-        model.addAttribute("fullUrlDetails", this.urlService.loadDetails(urlId));
-        return "dashboard/fullUrlDetails";
-    }
 
-    @PostMapping("/urls")
-    public String createUrl(@ModelAttribute("url") String url) {
-        FullUrlDescription description = this.urlService.createUrl(url);
-        return "redirect:/dashboard/urls/" + description.getId();
-    }
 }
