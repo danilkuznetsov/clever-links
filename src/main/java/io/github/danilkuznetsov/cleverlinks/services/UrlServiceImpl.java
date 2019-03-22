@@ -70,4 +70,9 @@ public class UrlServiceImpl implements UrlService {
             .map(FullUrlDetails::of)
             .orElseThrow(FullUrlNotFoundException::new);
     }
+
+    @Override
+    public FullUrlDescription addCustomShortUrl(final Long urlId, final String newCustomShortUrl) {
+        return null;
+    }
 }

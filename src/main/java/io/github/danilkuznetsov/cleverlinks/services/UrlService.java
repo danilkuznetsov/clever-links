@@ -14,4 +14,6 @@ public interface UrlService {
     List<FullUrlDescription> loadUrls();
 
     FullUrlDetails loadDetails(Long urlId);
+
+    FullUrlDescription addCustomShortUrl(Long urlId, String newCustomShortUrl);
 }

@@ -32,8 +32,17 @@ public class UrlController {
     }
 
     @PostMapping("/urls")
-    public String createUrl(@ModelAttribute("url") String url) {
+    public String createUrl(@ModelAttribute("url") final String url) {
         FullUrlDescription description = this.urlService.createUrl(url);
+        return "redirect:/dashboard/urls/" + description.getId();
+    }
+
+    @PostMapping("/urls/{urlId}/short-urls")
+    public String addCustomUrl(
+        @PathVariable("urlId") final Long urlId,
+        @ModelAttribute("short-url") final String newCustomShortUrl
+    ) {
+        FullUrlDescription description = this.urlService.addCustomShortUrl(urlId, newCustomShortUrl);
         return "redirect:/dashboard/urls/" + description.getId();
     }
 }

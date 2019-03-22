@@ -2,6 +2,7 @@ package io.github.danilkuznetsov.cleverlinks.web.ui;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
+import io.github.danilkuznetsov.cleverlinks.factories.ShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.junit.Test;
@@ -55,6 +56,20 @@ public class UrlControllerTest {
         this.mvc.perform(
             post("/dashboard/urls")
                 .param("url", FullUrlFactory.FIRST_URL)
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/dashboard/urls/1"));
+    }
+
+    @Test
+    public void shouldRedirectToDetailsPageAfterSuccessfulAddNewCustomUrl() throws Exception {
+
+        when(this.urlService.addCustomShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL))
+            .thenReturn(FullUrlDescriptionFactory.urlDescription());
+
+        this.mvc.perform(
+            post("/dashboard/urls/{urlId}/short-urls", FullUrlFactory.FIRST_URL_ID)
+                .param("short-url", ShortUrlFactory.SHORT_URL)
         )
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/dashboard/urls/1"));
