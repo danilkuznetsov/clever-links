@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by danil.kuznetsov on 18/01/17.
  */
 @Service
+@Transactional(readOnly = true)
 public class UrlServiceImpl implements UrlService {
 
     private final FullUrlRepository urlRepository;
@@ -35,6 +37,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
+    @Transactional
     public FullUrlDescription createUrl(String newUrl) {
 
         if (this.urlRepository.existsByUrl(newUrl)) {
@@ -72,7 +75,14 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
+    @Transactional
     public FullUrlDescription addCustomShortUrl(final Long urlId, final String newCustomShortUrl) {
-        return null;
+
+        final FullUrl url = this.urlRepository.findDetailsById(urlId)
+            .orElseThrow(FullUrlNotFoundException::new);
+
+        url.addShortUrl(newCustomShortUrl);
+
+        return FullUrlDescription.of(url);
     }
 }

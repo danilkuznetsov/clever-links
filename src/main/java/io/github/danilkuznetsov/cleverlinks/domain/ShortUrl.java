@@ -1,5 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -21,6 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "short_url")
+@EqualsAndHashCode(exclude = {"id", "fullUrl"})
 public class ShortUrl {
 
     @Id
@@ -29,6 +32,7 @@ public class ShortUrl {
     private Long id;
 
     @Getter
+    @Column(name = "url", unique = true, updatable = false, nullable = false)
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)

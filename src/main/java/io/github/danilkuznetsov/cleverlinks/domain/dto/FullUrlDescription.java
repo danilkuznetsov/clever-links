@@ -20,7 +20,14 @@ public class FullUrlDescription {
 
     private final String url;
 
+    @Getter(AccessLevel.NONE)
+    private final int count;
+
     public static FullUrlDescription of(final FullUrl url) {
-        return new FullUrlDescription(url.getId(), url.getUrl());
+        return new FullUrlDescription(url.getId(), url.getUrl(), url.shortUrls().size());
+    }
+
+    public int countShortUrls() {
+        return this.count;
     }
 }

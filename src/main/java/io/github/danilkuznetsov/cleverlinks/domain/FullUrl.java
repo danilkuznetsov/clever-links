@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 
 /**
  * @author Danil Kuznetsov (kuznetsov.danil.v@gmail.com)
@@ -38,7 +39,8 @@ public class FullUrl {
     private String url;
 
     @OneToMany(mappedBy = "fullUrl", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ShortUrl> shortUrls = new HashSet<>();
+    @BatchSize(size = 10)
+    private final Set<ShortUrl> shortUrls = new HashSet<>();
 
     @Builder
     private FullUrl(

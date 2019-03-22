@@ -4,6 +4,7 @@ import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
+import io.github.danilkuznetsov.cleverlinks.factories.ShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExistException;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import org.hamcrest.CoreMatchers;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,38 +87,18 @@ public class UrlServiceTest {
         verify(this.urlCache).put(url);
     }
 
-//    @Test
-//    public void shouldCreateDifferentShortUrlForDifferentLongUrl() {
-//        //given
-//        String longUrl1 = "http://google.com";
-//        String longUrl2 = "http://gmail.com";
-//
-//        //when
-//        String actualShortUrl1 = this.urlService.createUrl(longUrl1);
-//        String actualShortUrl2 = this.urlService.createUrl(longUrl2);
-//
-//        //then
-//        assertThat(actualShortUrl1, CoreMatchers.not(CoreMatchers.equalTo(actualShortUrl2)));
-//
-//    }
+    @Test
+    public void shouldAddNewCustomUrl() {
 
-//    @Test
-//    public void shouldFindDifferentLongUrlByDifferentShotUrl() {
-//        //give
-//        String expectedLongUrl1 = "http://google.com";
-//        String expectedLongUrl2 = "http://gmail.com";
-//
-//        //when
-//        String shortUrl1 = this.urlService.createUrl(expectedLongUrl1);
-//        String shortUrl2 = this.urlService.createUrl(expectedLongUrl2);
-//
-//        String actualLongUrl1 = this.urlService.resolveUrl(shortUrl1);
-//        String actualLongUrl2 = this.urlService.resolveUrl(shortUrl2);
-//
-//        //then
-//        assertThat(actualLongUrl1, CoreMatchers.equalTo(expectedLongUrl1));
-//        assertThat(actualLongUrl2, CoreMatchers.equalTo(expectedLongUrl2));
-//    }
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.of(FullUrlFactory.fullUrl()));
+
+        final FullUrlDescription url = this.urlService
+            .addCustomShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.CUSTOM_SHORT_URL);
+
+        assertThat(url, notNullValue());
+        assertThat(url.countShortUrls(), is(2));
+    }
 
     @Test(expected = FullUrlAlreadyExistException.class)
     public void shouldThrowExceptionIfCreateExistingFullUrl() {
