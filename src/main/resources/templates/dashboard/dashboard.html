@@ -13,6 +13,7 @@
                     <tr>
                         <th>#</th>
                         <th>url</th>
+                        <th>count short urls</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -21,6 +22,7 @@
                             <a th:href="@{'/dashboard/urls/' + ${url.id}}" th:text="${url.id}"></a>
                         </td>
                         <td th:text="${url.url}"></td>
+                        <td th:text="${url.countShortUrls()}"></td>
                     </tr>
                     </tbody>
                 </table>
