@@ -10,17 +10,20 @@ import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory
 import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.GeneratorShortUrl;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by danil.kuznetsov on 18/01/17.
  */
+@Service
 public class UrlServiceImpl implements UrlService {
 
     private final FullUrlRepository urlRepository;
     private final UrlCache urlCache;
     private final GeneratorFactory generatorFactory;
 
-
+    @Autowired
     public UrlServiceImpl(
         final FullUrlRepository urlRepository,
         final UrlCache urlCache,
