@@ -4,9 +4,11 @@ import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.ShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
+import io.github.danilkuznetsov.cleverlinks.factories.dto.UpdatedShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -73,5 +75,23 @@ public class UrlControllerTest {
         )
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/dashboard/urls/1"));
+    }
+
+    @Test
+    public void shouldRedirectToDetailsPageAfterSuccessfulUpdateExistingCustomUrl() throws Exception {
+
+        when(this.urlService.updateCustomShortUrl(
+            eq(FullUrlFactory.FIRST_URL_ID),
+            eq(UpdatedShortUrlFactory.updatedUrl()))
+        )
+            .thenReturn(FullUrlDescriptionFactory.urlDescription());
+
+        this.mvc.perform(
+            post("/dashboard/urls/{urlId}/short-urls/{shortUrlId}", FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID)
+                .param("new-short-url", ShortUrlFactory.CUSTOM_SHORT_URL)
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/dashboard/urls/1"));
+
     }
 }

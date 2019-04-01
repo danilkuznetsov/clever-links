@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.UpdatedShortUrl;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,18 @@ public class UrlController {
         @ModelAttribute("short-url") final String newCustomShortUrl
     ) {
         FullUrlDescription description = this.urlService.addCustomShortUrl(urlId, newCustomShortUrl);
+        return "redirect:/dashboard/urls/" + description.getId();
+    }
+
+    @PostMapping("/urls/{urlId}/short-urls/{shortUrlId}")
+    public String updateCustomUrl(
+        @PathVariable("urlId") final Long urlId,
+        @PathVariable("shortUrlId") final Long shortUrlId,
+        @ModelAttribute("new-short-url") final String newCustomShortUrl
+    ) {
+        final UpdatedShortUrl updatedShortUrl = new UpdatedShortUrl(shortUrlId, newCustomShortUrl);
+
+        FullUrlDescription description = this.urlService.updateCustomShortUrl(urlId, updatedShortUrl);
         return "redirect:/dashboard/urls/" + description.getId();
     }
 }

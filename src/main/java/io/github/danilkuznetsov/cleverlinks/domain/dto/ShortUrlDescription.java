@@ -20,7 +20,13 @@ public class ShortUrlDescription {
 
     private final String url;
 
+    private final boolean enabled;
+
     public static ShortUrlDescription of(final ShortUrl shortUrl) {
-        return new ShortUrlDescription(shortUrl.getId(), shortUrl.getUrl());
+        return new ShortUrlDescription(
+            shortUrl.getId(),
+            shortUrl.getUrl(),
+            shortUrl.getEnabled()
+        );
     }
 }

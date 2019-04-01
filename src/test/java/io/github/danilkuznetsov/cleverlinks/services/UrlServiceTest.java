@@ -6,6 +6,7 @@ import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.ShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
+import io.github.danilkuznetsov.cleverlinks.factories.dto.UpdatedShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExistException;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlNotFoundException;
@@ -164,4 +165,29 @@ public class UrlServiceTest {
         this.urlService.loadDetails(FullUrlFactory.FIRST_URL_ID);
     }
 
+    @Test
+    public void shouldReturnFullUrlDetailsAfterUpdatingShortUrl() {
+
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.of(FullUrlFactory.fullUrl()));
+
+        FullUrlDescription urlDescription = this.urlService.updateCustomShortUrl(
+            FullUrlFactory.FIRST_URL_ID,
+            UpdatedShortUrlFactory.updatedUrl()
+        );
+
+        assertThat(urlDescription, is(FullUrlDescriptionFactory.urlDescription()));
+    }
+
+    @Test(expected = FullUrlNotFoundException.class)
+    public void shouldThrowExceptionIfNotFoundUpdatedUrl() {
+
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.empty());
+
+        this.urlService.updateCustomShortUrl(
+            FullUrlFactory.FIRST_URL_ID,
+            UpdatedShortUrlFactory.updatedUrl()
+        );
+    }
 }

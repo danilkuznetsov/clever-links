@@ -1,5 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.domain;
 
+import io.github.danilkuznetsov.cleverlinks.domain.exceptions.ShortUrlNotFoundException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -55,9 +56,24 @@ public class FullUrl {
         final ShortUrl shortUrl = ShortUrl.builder()
             .shortUrl(url)
             .fullUrl(this)
+            .enabled(true)
             .build();
 
         this.shortUrls.add(shortUrl);
+    }
+
+    public void updateShortUrl(final Long shortUrlId, final String newShortUrl) {
+        final ShortUrl shortUrl = this.findShortUrlById(shortUrlId);
+        shortUrl.disable();
+        this.addShortUrl(newShortUrl);
+    }
+
+    private ShortUrl findShortUrlById(Long shortId) {
+        return this.shortUrls
+            .stream()
+            .filter(shortUrl -> shortId.equals(shortUrl.getId()))
+            .findAny()
+            .orElseThrow(ShortUrlNotFoundException::new);
     }
 
     public Set<ShortUrl> shortUrls() {

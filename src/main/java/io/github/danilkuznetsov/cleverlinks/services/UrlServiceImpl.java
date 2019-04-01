@@ -3,6 +3,7 @@ package io.github.danilkuznetsov.cleverlinks.services;
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
+import io.github.danilkuznetsov.cleverlinks.domain.dto.UpdatedShortUrl;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExistException;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlNotFoundException;
@@ -84,6 +85,18 @@ public class UrlServiceImpl implements UrlService {
         url.addShortUrl(newCustomShortUrl);
 
         this.urlCache.put(url);
+
+        return FullUrlDescription.of(url);
+    }
+
+    @Override
+    @Transactional
+    public FullUrlDescription updateCustomShortUrl(final Long urlId, final UpdatedShortUrl updatedUrl) {
+
+        FullUrl url = this.urlRepository.findDetailsById(urlId)
+            .orElseThrow(FullUrlNotFoundException::new);
+
+        url.updateShortUrl(updatedUrl.getId(), updatedUrl.getNewUrl());
 
         return FullUrlDescription.of(url);
     }
