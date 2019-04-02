@@ -39,18 +39,28 @@ public class ShortUrl {
     @JoinColumn(name = "full_url_id", nullable = false, updatable = false)
     private FullUrl fullUrl;
 
+    @Getter
+    @Column(name = "enabled")
+    private Boolean enabled;
+
     @Builder
     private ShortUrl(
         final Long id,
         final String shortUrl,
-        final FullUrl fullUrl
+        final FullUrl fullUrl,
+        final boolean enabled
     ) {
         this.id = id;
         this.url = shortUrl;
         this.fullUrl = fullUrl;
+        this.enabled = enabled;
     }
 
     public String fullUrl() {
         return this.fullUrl.getUrl();
+    }
+
+    void disable() {
+        this.enabled = false;
     }
 }

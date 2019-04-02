@@ -10,5 +10,4 @@ public interface ShortUrlFactory {
 
     Long CUSTOM_SHORT_URL_ID = 2L;
     String CUSTOM_SHORT_URL = "http://su.io/custom-short-url";
-
 }

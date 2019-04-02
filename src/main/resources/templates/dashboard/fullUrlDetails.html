@@ -31,6 +31,7 @@
                     <tr>
                         <th>id</th>
                         <th>url</th>
+                        <th>action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,22 @@
                         <td th:text="${shortUrl.id}"></td>
                         <td>
                             <a th:href="@{'/' + ${shortUrl.url}}" th:text="${shortUrl.url}"></a>
+                        </td>
+                        <td>
+                            <form class="lead"
+                                  th:action="'/dashboard/urls/' + ${fullUrlDetails.urlDescription.id} + '/short-urls/' + ${shortUrl.id} "
+                                  method="post"
+                                  th:if="${shortUrl.isEnabled()}">
+                                <div class="input-group">
+                                    <input name="new-short-url" class="form-control" type="text"
+                                           placeholder="type url ... " required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="submit">disable current and
+                                            generate new
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                     </tbody>
