@@ -190,4 +190,19 @@ public class UrlServiceTest {
             UpdatedShortUrlFactory.updatedUrl()
         );
     }
+
+    @Test
+    public void shouldUpdateCacheIfUpdateCustomUrl() {
+
+        final FullUrl url = FullUrlFactory.fullUrl();
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.of(url));
+
+        this.urlService.updateCustomShortUrl(
+            FullUrlFactory.FIRST_URL_ID,
+            UpdatedShortUrlFactory.updatedUrl()
+        );
+
+        verify(this.urlCache).put(url);
+    }
 }

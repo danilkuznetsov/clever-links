@@ -98,6 +98,8 @@ public class UrlServiceImpl implements UrlService {
 
         url.updateShortUrl(updatedUrl.getId(), updatedUrl.getNewUrl());
 
+        this.urlCache.put(url);
+
         return FullUrlDescription.of(url);
     }
 }
