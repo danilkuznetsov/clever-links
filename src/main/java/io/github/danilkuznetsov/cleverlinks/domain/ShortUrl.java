@@ -53,6 +53,7 @@ public class ShortUrl {
         this.id = id;
         this.url = shortUrl;
         this.fullUrl = fullUrl;
+        this.enabled = enabled;
     }
 
     public String fullUrl() {
