@@ -48,19 +48,17 @@ public class UrlServiceTest {
 
     @Before
     public void setup() {
+        when(this.mockGeneratorFactory.defaultGenerator()).thenReturn(new GeneratorMD5ShortUrl());
 
         this.urlService = new UrlServiceImpl(
             this.urlRepository,
             this.urlCache,
             this.mockGeneratorFactory
         );
-
-        when(this.mockGeneratorFactory.createGenerator("")).thenReturn(new GeneratorMD5ShortUrl());
     }
 
     @Test
     public void shouldReturnNewUrl() {
-
         doAnswer(invocation -> {
             FullUrl url = (FullUrl) invocation.getArguments()[0];
             FullUrlFactory.safeSetId(url, FullUrlFactory.FIRST_URL_ID);
@@ -68,21 +66,20 @@ public class UrlServiceTest {
         })
             .when(this.urlRepository).save(ArgumentMatchers.any());
 
-        String newUrl = "http://google.com";
-        FullUrlDescription url = this.urlService.createUrl(newUrl);
+        final String newUrl = "http://google.com";
+        final FullUrlDescription url = this.urlService.createUrl(newUrl);
 
         assertThat(url, is(FullUrlDescriptionFactory.urlDescription()));
     }
 
     @Test
     public void shouldPutCreatedFullUrlIntoCache() {
-
         final FullUrl url = FullUrlFactory.fullUrl();
 
         when(this.urlRepository.save(ArgumentMatchers.any(FullUrl.class)))
             .thenReturn(url);
 
-        String newUrl = "http://google.com";
+        final String newUrl = "http://google.com";
         this.urlService.createUrl(newUrl);
 
         verify(this.urlCache).put(url);
@@ -90,7 +87,6 @@ public class UrlServiceTest {
 
     @Test
     public void shouldAddNewCustomUrl() {
-
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.of(FullUrlFactory.fullUrl()));
 
@@ -103,7 +99,6 @@ public class UrlServiceTest {
 
     @Test(expected = FullUrlNotFoundException.class)
     public void shouldThrowExceptionIfExpandedUrlNotFound() {
-
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.empty());
 
@@ -112,7 +107,6 @@ public class UrlServiceTest {
 
     @Test
     public void shouldPutExpandedFullUrlIntoCache() {
-
         final FullUrl url = FullUrlFactory.fullUrl();
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.of(url));
@@ -125,7 +119,6 @@ public class UrlServiceTest {
     @Test(expected = FullUrlAlreadyExistException.class)
     public void shouldThrowExceptionIfCreateExistingFullUrl() {
         String fullUrl = "http://google.com";
-
         when(this.urlRepository.existsByUrl(fullUrl)).thenReturn(true);
 
         this.urlService.createUrl(fullUrl);
@@ -133,9 +126,7 @@ public class UrlServiceTest {
 
     @Test
     public void shouldReturnUrls() {
-
         FullUrl url = FullUrlFactory.fullUrl();
-
         when(this.urlRepository.findAll()).thenReturn(Collections.singletonList(url));
 
         List<FullUrlDescription> urls = this.urlService.loadUrls();
@@ -145,9 +136,7 @@ public class UrlServiceTest {
 
     @Test
     public void shouldReturnFullUrlDetails() {
-
         FullUrl fullUrl = FullUrlFactory.fullUrl();
-
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.of(fullUrl));
 
@@ -158,7 +147,6 @@ public class UrlServiceTest {
 
     @Test(expected = FullUrlNotFoundException.class)
     public void shouldThrowExceptionIfFullUrlNotFound() {
-
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.empty());
 
@@ -167,7 +155,6 @@ public class UrlServiceTest {
 
     @Test
     public void shouldReturnFullUrlDetailsAfterUpdatingShortUrl() {
-
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.of(FullUrlFactory.fullUrl()));
 
@@ -181,7 +168,6 @@ public class UrlServiceTest {
 
     @Test(expected = FullUrlNotFoundException.class)
     public void shouldThrowExceptionIfNotFoundUpdatedUrl() {
-
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.empty());
 
@@ -193,7 +179,6 @@ public class UrlServiceTest {
 
     @Test
     public void shouldUpdateCacheIfUpdateCustomUrl() {
-
         final FullUrl url = FullUrlFactory.fullUrl();
         when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
             .thenReturn(Optional.of(url));

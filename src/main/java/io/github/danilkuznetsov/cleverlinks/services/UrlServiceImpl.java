@@ -24,7 +24,8 @@ public class UrlServiceImpl implements UrlService {
 
     private final FullUrlRepository urlRepository;
     private final UrlCache urlCache;
-    private final GeneratorFactory generatorFactory;
+    private final GeneratorFactory shortUrlGeneratorFactory;
+    private final GeneratorShortUrl defaultShortUrlGenerator;
 
     @Autowired
     public UrlServiceImpl(
@@ -34,29 +35,26 @@ public class UrlServiceImpl implements UrlService {
     ) {
         this.urlRepository = urlRepository;
         this.urlCache = urlCache;
-        this.generatorFactory = urlGeneratorFactory;
+        this.shortUrlGeneratorFactory = urlGeneratorFactory;
+        this.defaultShortUrlGenerator = this.shortUrlGeneratorFactory.defaultGenerator();
     }
 
     @Override
     @Transactional
-    public FullUrlDescription createUrl(String newUrl) {
-
+    public FullUrlDescription createUrl(final String newUrl) {
         if (this.urlRepository.existsByUrl(newUrl)) {
             throw new FullUrlAlreadyExistException();
         }
-
-        GeneratorShortUrl generator = this.generatorFactory.createGenerator("");
 
         FullUrl url = FullUrl.builder()
             .url(newUrl)
             .build();
 
-        url.addShortUrl(generator.encodeLongUrl(newUrl));
+        final String generatedUrl = this.defaultShortUrlGenerator.encodeLongUrl(newUrl);
+        url.addShortUrl(generatedUrl);
 
         url = this.urlRepository.save(url);
-
         this.urlCache.put(url);
-
         return FullUrlDescription.of(url);
     }
 
@@ -93,7 +91,7 @@ public class UrlServiceImpl implements UrlService {
     @Transactional
     public FullUrlDescription updateCustomShortUrl(final Long urlId, final UpdatedShortUrl updatedUrl) {
 
-        FullUrl url = this.urlRepository.findDetailsById(urlId)
+        final FullUrl url = this.urlRepository.findDetailsById(urlId)
             .orElseThrow(FullUrlNotFoundException::new);
 
         url.updateShortUrl(updatedUrl.getId(), updatedUrl.getNewUrl());

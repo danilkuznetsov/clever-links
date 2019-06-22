@@ -1,6 +1,6 @@
 package io.github.danilkuznetsov.cleverlinks.config;
 
-import io.github.danilkuznetsov.cleverlinks.services.strategies.DefaultGeneratorFactory;
+import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactoryImpl;
 import io.github.danilkuznetsov.cleverlinks.services.strategies.GeneratorFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,6 @@ public class UrlGenerationConfiguration {
 
     @Bean
     public GeneratorFactory generatorFactory() {
-        return new DefaultGeneratorFactory();
+        return new GeneratorFactoryImpl();
     }
 }

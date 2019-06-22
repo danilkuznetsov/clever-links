@@ -6,11 +6,11 @@ import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.Gener
 /**
  * @author Danil Kuznetsov
  */
-public class DefaultGeneratorFactory implements GeneratorFactory {
+public class GeneratorFactoryImpl implements GeneratorFactory {
 
     @Override
-    public GeneratorShortUrl createGenerator(String type) {
-        GeneratorShortUrl generatorShortUrl;
+    public GeneratorShortUrl createGenerator(final String type) {
+        final GeneratorShortUrl generatorShortUrl;
         switch (type) {
             default:
                 generatorShortUrl = new GeneratorMD5ShortUrl();
@@ -19,4 +19,8 @@ public class DefaultGeneratorFactory implements GeneratorFactory {
         return generatorShortUrl;
     }
 
+    @Override
+    public GeneratorShortUrl defaultGenerator() {
+        return this.createGenerator("");
+    }
 }

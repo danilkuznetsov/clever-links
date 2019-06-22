@@ -7,4 +7,6 @@ import io.github.danilkuznetsov.cleverlinks.services.strategies.generators.Gener
  */
 public interface GeneratorFactory {
     GeneratorShortUrl createGenerator(String type);
+    
+    GeneratorShortUrl defaultGenerator();
 }
