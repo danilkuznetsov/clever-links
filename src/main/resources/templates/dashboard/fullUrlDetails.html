@@ -41,15 +41,25 @@
                             <a th:href="@{'/' + ${shortUrl.url}}" th:text="${shortUrl.url}"></a>
                         </td>
                         <td>
-                            <form class="lead"
-                                  th:action="'/dashboard/urls/' + ${fullUrlDetails.urlDescription.id} + '/short-urls/' + ${shortUrl.id} "
+                            <form th:action="'/dashboard/urls/' + ${fullUrlDetails.urlDescription.id} + '/short-urls/' + ${shortUrl.id} + '/delete' "
+                                  method="post"
+                                  th:if="${shortUrl.isEnabled()}">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="submit">mark as delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <form th:action="'/dashboard/urls/' + ${fullUrlDetails.urlDescription.id} + '/short-urls/' + ${shortUrl.id} "
                                   method="post"
                                   th:if="${shortUrl.isEnabled()}">
                                 <div class="input-group">
                                     <input name="new-short-url" class="form-control" type="text"
                                            placeholder="type url ... " required>
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="submit">disable current and
+                                        <button class="btn btn-outline-secondary" type="submit">mark as delete current and
                                             generate new
                                         </button>
                                     </div>

@@ -2,6 +2,7 @@ package io.github.danilkuznetsov.cleverlinks.web.ui;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.UpdatedShortUrl;
+import io.github.danilkuznetsov.cleverlinks.domain.urls.DeletedShortUrl;
 import io.github.danilkuznetsov.cleverlinks.services.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,5 +58,14 @@ public class UrlController {
 
         FullUrlDescription description = this.urlService.updateCustomShortUrl(urlId, updatedShortUrl);
         return "redirect:/dashboard/urls/" + description.getId();
+    }
+
+    @PostMapping("/urls/{fullUrlId}/short-urls/{shortUrlId}/delete")
+    public String deleteCustomUrl(
+        @PathVariable("fullUrlId") final Long fullUrlId,
+        @PathVariable("shortUrlId") final Long shortUrlId
+    ) {
+        final DeletedShortUrl deletedShortUrl = this.urlService.deleteShortUrl(fullUrlId, shortUrlId);
+        return "redirect:/dashboard/urls/" + deletedShortUrl.getFullUrlId();
     }
 }

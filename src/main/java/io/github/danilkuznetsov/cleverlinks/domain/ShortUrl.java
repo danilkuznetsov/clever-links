@@ -70,7 +70,10 @@ public class ShortUrl {
         this.enabled = false;
     }
 
+    // TODO: after mark as deleted url is disabled
+    // but instead of simply disabled status, the deleted url cannot be enabled
     void markDeleted() {
+        this.disable();
         this.deleted = true;
     }
 }

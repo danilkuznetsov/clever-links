@@ -1,6 +1,7 @@
 package io.github.danilkuznetsov.cleverlinks.web.ui;
 
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
+import io.github.danilkuznetsov.cleverlinks.domain.urls.DeletedShortUrl;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.ShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
@@ -88,6 +89,22 @@ public class UrlControllerTest {
 
         this.mvc.perform(
             post("/dashboard/urls/{urlId}/short-urls/{shortUrlId}", FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID)
+                .param("new-short-url", ShortUrlFactory.CUSTOM_SHORT_URL)
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/dashboard/urls/1"));
+
+    }
+
+    @Test
+    public void shouldRedirectToDetailsPageAfterSuccessfulDeleteExistingCustomUrl() throws Exception {
+        when(this.urlService.deleteShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID))
+            .thenReturn(DeletedShortUrl.of(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID));
+
+        this.mvc.perform(
+            post("/dashboard/urls/{urlId}/short-urls/{shortUrlId}/delete",
+                FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID
+            )
                 .param("new-short-url", ShortUrlFactory.CUSTOM_SHORT_URL)
         )
             .andExpect(status().is3xxRedirection())
