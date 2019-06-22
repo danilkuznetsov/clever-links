@@ -3,6 +3,7 @@ package io.github.danilkuznetsov.cleverlinks.services;
 import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
+import io.github.danilkuznetsov.cleverlinks.domain.urls.DeletedShortUrl;
 import io.github.danilkuznetsov.cleverlinks.factories.FullUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.ShortUrlFactory;
 import io.github.danilkuznetsov.cleverlinks.factories.dto.FullUrlDescriptionFactory;
@@ -18,6 +19,8 @@ import java.util.Optional;
 import org.hamcrest.CoreMatchers;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -189,5 +192,25 @@ public class UrlServiceTest {
         );
 
         verify(this.urlCache).put(url);
+    }
+
+    @Test
+    public void shouldDeleteShortUrl(){
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.of(FullUrlFactory.fullUrl()));
+
+        final DeletedShortUrl deletedShortUrl = this.urlService.deleteShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID);
+
+        assertNotNull(deletedShortUrl);
+        assertEquals(FullUrlFactory.FIRST_URL_ID, deletedShortUrl.getFullUrlId());
+        assertEquals(ShortUrlFactory.SHORT_URL_ID, deletedShortUrl.getShortUrlId());
+    }
+
+    @Test(expected = FullUrlNotFoundException.class)
+    public void shouldThrowExceptionIfFullNotFoundWhenDeletingShortUrl(){
+        when(this.urlRepository.findDetailsById(FullUrlFactory.FIRST_URL_ID))
+            .thenReturn(Optional.empty());
+
+        this.urlService.deleteShortUrl(FullUrlFactory.FIRST_URL_ID, ShortUrlFactory.SHORT_URL_ID);
     }
 }

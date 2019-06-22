@@ -3,6 +3,7 @@ package io.github.danilkuznetsov.cleverlinks.services;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.UpdatedShortUrl;
+import io.github.danilkuznetsov.cleverlinks.domain.urls.DeletedShortUrl;
 import java.util.List;
 
 /**
@@ -19,4 +20,6 @@ public interface UrlService {
     FullUrlDescription addCustomShortUrl(Long urlId, String newCustomShortUrl);
 
     FullUrlDescription updateCustomShortUrl(Long urlId, UpdatedShortUrl updatedUrl);
+
+    DeletedShortUrl deleteShortUrl(Long fullUrlId, Long shortUrlId);
 }

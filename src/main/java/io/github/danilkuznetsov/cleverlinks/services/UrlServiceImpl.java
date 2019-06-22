@@ -4,6 +4,7 @@ import io.github.danilkuznetsov.cleverlinks.domain.FullUrl;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDescription;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.FullUrlDetails;
 import io.github.danilkuznetsov.cleverlinks.domain.dto.UpdatedShortUrl;
+import io.github.danilkuznetsov.cleverlinks.domain.urls.DeletedShortUrl;
 import io.github.danilkuznetsov.cleverlinks.repositories.FullUrlRepository;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlAlreadyExistException;
 import io.github.danilkuznetsov.cleverlinks.services.exceptions.FullUrlNotFoundException;
@@ -99,5 +100,17 @@ public class UrlServiceImpl implements UrlService {
         this.urlCache.put(url);
 
         return FullUrlDescription.of(url);
+    }
+
+    @Override
+    @Transactional
+    public DeletedShortUrl deleteShortUrl(final Long fullUrlId, final Long shortUrlId) {
+        final FullUrl fullUrl = this.urlRepository
+            .findDetailsById(fullUrlId)
+            .orElseThrow(FullUrlNotFoundException::new);
+
+        fullUrl.deleteShortUrl(shortUrlId);
+
+        return DeletedShortUrl.of(fullUrlId, shortUrlId);
     }
 }

@@ -14,8 +14,7 @@ public class FullUrlTest {
 
     @Test
     public void shouldUpdateExistingShortUrl() {
-
-        FullUrl url = FullUrlFactory.simpleFullUrl();
+        final FullUrl url = FullUrlFactory.simpleFullUrl();
 
         final ShortUrl mockExistingUrl = Mockito.mock(ShortUrl.class);
         FullUrlFactory.safeAddShortUrl(url, mockExistingUrl);
@@ -26,16 +25,39 @@ public class FullUrlTest {
 
         assertThat(url.shortUrls().size(), CoreMatchers.is(2));
 
-        // disable and create new short url we want update existing short url
-        verify(mockExistingUrl).disable();
+        // mark as deleted and create new short url we want update existing short url
+        verify(mockExistingUrl).markDeleted();
     }
 
     @Test(expected = ShortUrlNotFoundException.class)
     public void shouldThrowExceptionIfUpdatedShortUrlNotFound() {
-        FullUrl url = FullUrlFactory.fullUrl();
+        final FullUrl url = FullUrlFactory.fullUrl();
 
-        long invalidShortUrlId = 10L;
+        final long invalidShortUrlId = 10L;
         url.updateShortUrl(invalidShortUrlId, "newUrl");
     }
 
+    @Test
+    public void shouldMarkDeleteShortUrlById(){
+        final FullUrl url = FullUrlFactory.simpleFullUrl();
+
+        final ShortUrl mockExistingUrl = Mockito.mock(ShortUrl.class);
+        when(mockExistingUrl.getId()).thenReturn(ShortUrlFactory.SHORT_URL_ID);
+
+        FullUrlFactory.safeAddShortUrl(url, mockExistingUrl);
+
+        url.deleteShortUrl(ShortUrlFactory.SHORT_URL_ID);
+
+        assertThat(url.shortUrls().size(), CoreMatchers.is(1));
+
+        verify(mockExistingUrl).markDeleted();
+    }
+
+    @Test(expected = ShortUrlNotFoundException.class)
+    public void shouldThrowExceptionIfShortUrlNotFoundWhenDeletingShortUrl() {
+        final FullUrl url = FullUrlFactory.fullUrl();
+
+        final long invalidShortUrlId = 10L;
+        url.deleteShortUrl(invalidShortUrlId);
+    }
 }

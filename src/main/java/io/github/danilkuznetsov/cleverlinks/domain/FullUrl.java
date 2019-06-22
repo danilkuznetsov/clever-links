@@ -3,7 +3,6 @@ package io.github.danilkuznetsov.cleverlinks.domain;
 import io.github.danilkuznetsov.cleverlinks.domain.exceptions.ShortUrlNotFoundException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +27,7 @@ import org.hibernate.annotations.BatchSize;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = "shortUrls")
 @Table(name = "full_url")
+@EqualsAndHashCode(of = "url")
 public class FullUrl {
 
     @Id
@@ -64,7 +65,7 @@ public class FullUrl {
 
     public void updateShortUrl(final Long shortUrlId, final String newShortUrl) {
         final ShortUrl shortUrl = this.findShortUrlById(shortUrlId);
-        shortUrl.disable();
+        shortUrl.markDeleted();
         this.addShortUrl(newShortUrl);
     }
 
@@ -80,16 +81,8 @@ public class FullUrl {
         return Collections.unmodifiableSet(this.shortUrls);
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) return true;
-        if (obj == null || this.getClass() != obj.getClass()) return false;
-        final FullUrl fullUrl = (FullUrl) obj;
-        return Objects.equals(this.getUrl(), fullUrl.getUrl());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getUrl());
+    public void deleteShortUrl(final Long shortUrlId) {
+        final ShortUrl shortUrl = this.findShortUrlById(shortUrlId);
+        shortUrl.markDeleted();
     }
 }

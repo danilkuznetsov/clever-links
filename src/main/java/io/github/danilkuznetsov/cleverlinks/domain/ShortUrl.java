@@ -43,17 +43,23 @@ public class ShortUrl {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @Getter
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     @Builder
     private ShortUrl(
         final Long id,
         final String shortUrl,
         final FullUrl fullUrl,
-        final boolean enabled
+        final boolean enabled,
+        final boolean deleted
     ) {
         this.id = id;
         this.url = shortUrl;
         this.fullUrl = fullUrl;
         this.enabled = enabled;
+        this.deleted = deleted;
     }
 
     public String fullUrl() {
@@ -62,5 +68,9 @@ public class ShortUrl {
 
     void disable() {
         this.enabled = false;
+    }
+
+    void markDeleted() {
+        this.deleted = true;
     }
 }
